@@ -7,6 +7,7 @@ import AboutPage from "./pages/AboutPage";
 import ContactPage from "./pages/ContactPage";
 import BookingPage from "./pages/BookingPage";
 import QuestionnairePage from "./pages/QuestionnairePage";
+import LoginPage from "./pages/LoginPage";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
@@ -20,7 +21,7 @@ function App() {
             <Route path="contact-us" element={<ContactPage />} />
             <Route path="questionnaire" element={<QuestionnairePage />} />
             <Route path="booking" element={<BookingPage />} />
-            {/* <Route path="log-in" element={<LogInPage />} /> */}
+            <Route path="login" element={<LoginPage />} />
           </Routes>
           <Footer />
         </BrowserRouter>
