@@ -3,7 +3,7 @@ function Education() {
     <>
       <h2 className="form__title">What is your level of education?</h2>
 
-      <label for="education-level">
+      <label htmlFor="education-level">
         Enter the highest level of education for which you:
         <select name="education-level" id="cars" form="carform">
           <option value="volvo">

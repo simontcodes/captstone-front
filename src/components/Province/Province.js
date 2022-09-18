@@ -2,7 +2,7 @@ function Province() {
   return (
     <>
       <h2>Do you have a province or city of preference?</h2>
-      <label for="province">
+      <label htmlFor="province">
         Select a province or Territory:
         <select name="province" form="">
           <option value="any province">Any province or territory</option>
@@ -38,7 +38,7 @@ function Province() {
       </label>
 
       <h2>Are you open to study in Canada?</h2>
-      <label for="study">
+      <label htmlFor="study">
         <select name="study" form="">
           <option value="yes">yes</option>
           <option value="no">No</option>
