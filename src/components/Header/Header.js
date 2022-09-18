@@ -2,7 +2,9 @@ import "./Header.scss";
 import Logo from "../../assets/logo/logo.svg";
 import { NavLink } from "react-router-dom";
 
-function Header() {
+function Header({ isLoggedIn, handleLogout }) {
+  
+
   return (
     <header className="header">
       <div className="header__container">
@@ -21,9 +23,12 @@ function Header() {
               <li>
                 <NavLink className='nav__link' to="contact-us">Contact</NavLink>
               </li>
-              <li>
-                <NavLink className='nav__link' to="login">Login</NavLink>
-              </li>
+              {!isLoggedIn && <li>
+                <NavLink className='nav__link' to="login">Log In</NavLink>
+              </li>}
+              {isLoggedIn && <li> <button onClick={handleLogout}>Log out</button> 
+              </li>}
+              
             </ul>
           
         </nav>
