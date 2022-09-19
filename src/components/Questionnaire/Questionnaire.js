@@ -18,6 +18,8 @@ const schema = yup.object().shape({
 
 function Questionnaire() {
   const [formItem, setFormItem] = useState(1);
+  //------state to add input field on demand for job experience/FORM3-------
+  const [workExp, setWorkExp] = useState([0]);
   // --------states to display forms in Canada/FORM 4----------------------
   const [beenCanada, setBeenCanada] = useState(false);
   const [typeOfStay, setTypeOfStay] = useState(null);
@@ -57,6 +59,10 @@ function Questionnaire() {
       return;
     }
     setFormItem(formItem - 1);
+  }
+  // event handler for work exp FORM/3------------
+  function handleWorkExp() {
+    setWorkExp([...workExp, workExp.length]);
   }
   // ---------event handlers Canada FORM4-----------------
   function hasBeen(event) {
@@ -227,35 +233,32 @@ function Questionnaire() {
             <>
               <h1>
                 In the last ten years, how many years of work experience do you
-                have? Main Job Title & duration (up to 3 entries)
+                have? Main Job Title & duration
               </h1>
-              <label htmlFor="job1">
-                Job1:
-                <input
-                  {...register("job1")}
-                  type="text"
-                  name="job1"
-                  placeholder="enter occupation"
-                />
-              </label>
-              <label htmlFor="job2">
-                Job2:
-                <input
-                  {...register("job2")}
-                  type="text"
-                  name="job2"
-                  placeholder="enter occupation"
-                />
-              </label>
-              <label htmlFor="job3">
-                Job3:
-                <input
-                  {...register("job3")}
-                  type="text"
-                  name="job3"
-                  placeholder="enter occupation"
-                />
-              </label>
+              {workExp.map((jobExp) => {
+                return (
+                  <>
+                    <label htmlFor="job1">
+                      Job title:
+                      <input
+                        {...register(`job${jobExp + 1}`)}
+                        type="text"
+                        name={`job${jobExp + 1}`}
+                        placeholder="enter occupation"
+                      />
+                    </label>
+                    <label htmlFor="yearsOfExp">
+                      Years of experience:
+                      <input
+                        {...register(`yearsOfExp${jobExp + 1}`)}
+                        type="number"
+                        name={`yearsOfExp${jobExp + 1}`}
+                      />
+                    </label>
+                  </>
+                );
+              })}
+              <button onClick={handleWorkExp}> Add another job </button>
             </>
           )}
           {formItem === 4 && (
@@ -460,7 +463,7 @@ function Questionnaire() {
                 <select
                   {...register("provinceOfPreference")}
                   name="provinceOfPreference"
-                  form=""
+                  
                 >
                   <option value="any province">
                     Any province or territory
@@ -504,7 +507,6 @@ function Questionnaire() {
                 <select
                   {...register("studyInCanada")}
                   name="studyInCanada"
-                  form=""
                 >
                   <option value="yes">yes</option>
                   <option value="no">No</option>
@@ -520,8 +522,46 @@ function Questionnaire() {
               <p>First Name: {watch("firstName")}</p>
               <p>Last Name: {watch("lastName")}</p>
               <p>Email: {watch("email")}</p>
-              <p>Email: {watch("email")}</p>
               <p>Phone Number: {watch("phoneNumber")}</p>
+              <p>Highest Education Level: {watch("educationLevel")}</p>
+              {workExp.map((job) => {
+                return (
+                  <>
+                    <p>
+                      job exp: {watch(`job${job + 1}`)} Years of experience:
+                      {watch(`yearsOfExp${job + 1}`)}
+                    </p>
+                  </>
+                );
+              })}
+              {watch("canadaVisitor") && (
+                <p>Date visa expire or will expire: {watch("canadaVisitor")}</p>
+              )}
+              {watch("canadaStudent") && (
+                <p>Date visa expire or will expire: {watch("canadaStudent")}</p>
+              )}
+              {watch("canadaWorker") && (
+                <p>
+                  Job held in Canada: {watch("canadaWorker")} Years of
+                  Expirience: {watch("canadaYearsOfExpirience")}{" "}
+                </p>
+              )}
+              {watch("englishTest") && (
+                <p>
+                  Type of test taken: {watch("englishTest")} Writing Score:{" "}
+                  {watch("englishWriting")} Listening Score:{" "}
+                  {watch("englishListening")} Reading Score:{" "}
+                  {watch("englishReading")} Speaking Score:{" "}
+                  {watch("englishSpeaking")}
+                </p>
+              )}
+               {watch("provinceOfPreference") && (
+                <p>
+                  Province of preference: {watch("provinceOfPreference")} Years of
+                  City of preference: {watch("cityOfPreference")}{" "}
+                  Willing to study in Canada: {watch("studyInCanada")}
+                </p>
+              )}
 
               <button>Submit</button>
             </>
