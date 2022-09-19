@@ -1,12 +1,8 @@
 import "./Questionnaire.scss";
-import Work from "../Work/Work";
-import Personal from "../Personal/Personal";
-import Education from "../Education/Education";
-import Canada from "../Canada/Canada";
-import English from "../English/English";
+
 import Married from "../Married/Married";
 import Province from "../Province/Province";
-import Submit from "../Submit/Submit";
+
 import NextIcon from "../../assets/icons/next.svg";
 import PreviousIcon from "../../assets/icons/previous.svg";
 import { useState } from "react";
@@ -20,8 +16,6 @@ const schema = yup.object().shape({
   email: yup.string().email().required(),
 });
 
-
-
 function Questionnaire() {
   const [formItem, setFormItem] = useState(1);
   // --------states to display forms in Canada/FORM 4----------------------
@@ -29,8 +23,10 @@ function Questionnaire() {
   const [typeOfStay, setTypeOfStay] = useState(null);
   const [hasStudy, setHasStudy] = useState(null);
   const [hasWorked, setHasWorked] = useState(null);
-  //---------------------------------------
-
+  //---------state to display forms in English/FORM5-----------------
+  const [hasEnglish, setHasEnglish] = useState(false);
+  // -------state to display is married form step 6------------
+  const [isMarried, setIsMarried] = useState(null);
   // trying to use react hook form with yups
   const {
     register,
@@ -41,15 +37,12 @@ function Questionnaire() {
     resolver: yupResolver(schema),
   });
 
-  
-//function passed to handleSubmit
+  //function passed to handleSubmit
   const submitForm = (data) => {
-    console.log(data)
-    
-    
+    console.log(data);
   };
 
-  console.log(watch('firstName'))
+  console.log(watch("firstName"));
 
   //logic to show pieces of the form
   function nextQuestion() {
@@ -65,7 +58,6 @@ function Questionnaire() {
     }
     setFormItem(formItem - 1);
   }
-  //-----------------------------------
   // ---------event handlers Canada FORM4-----------------
   function hasBeen(event) {
     setBeenCanada(true);
@@ -91,7 +83,22 @@ function Questionnaire() {
     event.preventDefault();
     setHasWorked(true);
   }
-  //------------------------------------
+  //---Event handlers English FORM5
+  function handleHasEnglish(event) {
+    event.preventDefault();
+    setHasEnglish(true);
+  }
+
+  //--Event handlers for is Married-------------
+  function handleIsMarried(event) {
+    event.preventDefault();
+    setIsMarried(true);
+  }
+  function handleNextQuestion(event) {
+    event.preventDefault();
+    setFormItem(formItem + 1);
+  }
+  //----------------------------------
   return (
     <section className="questions">
       <div className="questions__container">
@@ -251,112 +258,274 @@ function Questionnaire() {
               </label>
             </>
           )}
-          {formItem === 4 && <>
-      {!beenCanada && (
-        <>
-          <h1>Have you been in Canada before? </h1>
-          <button onClick={hasBeen}>Yes</button>
-          <button onClick={hasNotBeen}>No</button>
-        </>
-      )}
-
-      {beenCanada && (
-        <>
-          <h2>what was your status during your stay?</h2>
-          <button
-            onClick={(event) => {
-              handleTypeOfStay("visitor", event);
-            }}
-          >
-            Visitor
-          </button>
-          <button
-            onClick={(event) => {
-              handleTypeOfStay("study", event);
-            }}
-          >
-            Studies
-          </button>
-          <button
-            onClick={(event) => {
-              handleTypeOfStay("work", event);
-            }}
-          >
-            Worker
-          </button>
-        </>
-      )}
-      {typeOfStay === "visitor" && (
-        <>
-          <h2>When did or will your visa expire?</h2>
-          <label htmlFor="visa-expires">
-            Date of expiry:
-            <input {...register("canadaVisitor")} type="date" name="canadaVisitor" />
-          </label>
-        </>
-      )}
-      {typeOfStay === "study" && (
-        <>
-          <h2>Have you studied in Canada a degree, diploma or certificate??</h2>
-          <button
-            onClick={(event) => {
-              handleHasStudy(event);
-            }}
-          >
-            Yes
-          </button>
-
-          {hasStudy && (
-            <label htmlFor="study">
-              Enter program studied in Canada:
-              <input {...register("canadaStudent")} type="text" name="canadaStudent" />
-            </label>
-          )}
-        </>
-      )}
-      {typeOfStay === "work" && (
-        <>
-          <h2>Have you worked in Canada??</h2>
-          <button
-            onClick={(event) => {
-              handleHasWorked(event);
-            }}
-          >
-            Yes
-          </button>
-
-          {hasWorked && (
+          {formItem === 4 && (
             <>
-              <label htmlFor="years-experience">
-                Years of canadian work experience:
-                <input {...register("canadaYearsOfExpirience")} type="number" name="canadaYearsOfExpirience" />
+              {!beenCanada && (
+                <>
+                  <h1>Have you been in Canada before? </h1>
+                  <button onClick={hasBeen}>Yes</button>
+                  <button onClick={hasNotBeen}>No</button>
+                </>
+              )}
+
+              {beenCanada && (
+                <>
+                  <h2>what was your status during your stay?</h2>
+                  <button
+                    onClick={(event) => {
+                      handleTypeOfStay("visitor", event);
+                    }}
+                  >
+                    Visitor
+                  </button>
+                  <button
+                    onClick={(event) => {
+                      handleTypeOfStay("study", event);
+                    }}
+                  >
+                    Studies
+                  </button>
+                  <button
+                    onClick={(event) => {
+                      handleTypeOfStay("work", event);
+                    }}
+                  >
+                    Worker
+                  </button>
+                </>
+              )}
+              {typeOfStay === "visitor" && (
+                <>
+                  <h2>When did or will your visa expire?</h2>
+                  <label htmlFor="visa-expires">
+                    Date of expiry:
+                    <input
+                      {...register("canadaVisitor")}
+                      type="date"
+                      name="canadaVisitor"
+                    />
+                  </label>
+                </>
+              )}
+              {typeOfStay === "study" && (
+                <>
+                  <h2>
+                    Have you studied in Canada a degree, diploma or
+                    certificate??
+                  </h2>
+                  <button
+                    onClick={(event) => {
+                      handleHasStudy(event);
+                    }}
+                  >
+                    Yes
+                  </button>
+
+                  {hasStudy && (
+                    <label htmlFor="study">
+                      Enter program studied in Canada:
+                      <input
+                        {...register("canadaStudent")}
+                        type="text"
+                        name="canadaStudent"
+                      />
+                    </label>
+                  )}
+                </>
+              )}
+              {typeOfStay === "work" && (
+                <>
+                  <h2>Have you worked in Canada??</h2>
+                  <button
+                    onClick={(event) => {
+                      handleHasWorked(event);
+                    }}
+                  >
+                    Yes
+                  </button>
+
+                  {hasWorked && (
+                    <>
+                      <label htmlFor="years-experience">
+                        Years of canadian work experience:
+                        <input
+                          {...register("canadaYearsOfExpirience")}
+                          type="number"
+                          name="canadaYearsOfExpirience"
+                        />
+                      </label>
+                      <label htmlFor="job-title">
+                        Job title:
+                        <input
+                          {...register("canadaWorker")}
+                          type="text"
+                          name="canadaWorker"
+                        />
+                      </label>
+                    </>
+                  )}
+                </>
+              )}
+            </>
+          )}
+          {formItem === 5 && (
+            <>
+              <h2>Have you done an official English IELTS or Celpip test?</h2>
+              <button
+                onClick={(event) => {
+                  handleHasEnglish(event);
+                }}
+              >
+                Yes
+              </button>
+              <button onClick={nextQuestion}>No</button>
+              {hasEnglish && (
+                <>
+                  <label htmlFor="english-test">
+                    Select which english test have you taken:
+                    <select
+                      {...register("englishTest")}
+                      name="englishTest"
+                      form="c"
+                    >
+                      <option value="none" selected disabled hidden>
+                        Select an Option
+                      </option>
+                      <option value="IELTS">IELTS</option>
+                      <option value="CELPIP">CELPIP</option>
+                    </select>
+                  </label>
+                  <label htmlFor="speaking">
+                    Enter score for speaking:
+                    <input
+                      {...register("englishSpeaking")}
+                      type="number"
+                      name="englishSpeaking"
+                    />
+                  </label>
+                  <label htmlFor="listening">
+                    Enter score for listening:
+                    <input
+                      {...register("englishListening")}
+                      type="number"
+                      name="englishListening"
+                    />
+                  </label>
+                  <label htmlFor="reading">
+                    Enter score for reading:
+                    <input
+                      {...register("englishReading")}
+                      type="number"
+                      name="englishReading"
+                    />
+                  </label>
+                  <label htmlFor="writing">
+                    Enter score for writing:
+                    <input
+                      {...register("englishWriting")}
+                      type="number"
+                      name="englishWriting"
+                    />
+                  </label>
+                </>
+              )}
+            </>
+          )}
+          {formItem === 6 && (
+            <>
+              <h2>Are you married or in common law?</h2>
+              <button
+                onClick={(event) => {
+                  handleIsMarried(event);
+                }}
+              >
+                Yes
+              </button>
+              <button
+                onClick={(event) => {
+                  handleNextQuestion(event);
+                }}
+              >
+                No
+              </button>
+
+              {/* ----------------add forms here-------------- */}
+            </>
+          )}
+          {formItem === 7 && (
+            <>
+              <h2>Do you have a province or city of preference?</h2>
+              <label htmlFor="province">
+                Select a province or Territory:
+                <select
+                  {...register("provinceOfPreference")}
+                  name="provinceOfPreference"
+                  form=""
+                >
+                  <option value="any province">
+                    Any province or territory
+                  </option>
+                  <option value="ontario">ON - Ontario</option>
+                  <option value="quebec">QC - Quebec</option>
+                  <option value="nova scotia">NS - Nova Scotia</option>
+                  <option value="new brunswick">NB - New Brunswick</option>
+                  <option value="manitoba">MB - Manitoba</option>
+                  <option value="british columbia">
+                    BC - British Columbia
+                  </option>
+                  <option value="prince edward island">
+                    PE - Prince Edward Island
+                  </option>
+                  <option value="saskatchewan">SK - Saskatchewan</option>
+                  <option value="alberta">AB - Alberta</option>
+                  <option value="newfoundland and labrador">
+                    NL - Newdoundland and Labrador
+                  </option>
+                  <option value="northwest territories">
+                    NT - Northwest Territories
+                  </option>
+                  <option value="yukon">YT - Yukon</option>
+                  <option value="nunavut">Nu - Nunavut</option>
+                </select>
               </label>
-              <label htmlFor="job-title">
-                Job title:
-                <input {...register("canadaWorker")} type="text" name="canadaWorker" />
+
+              <label htmlFor="city">
+                City of preference:
+                <input
+                  {...register("cityOfPreference")}
+                  type="text"
+                  name="cityOfPreference"
+                  placeholder="name a city or leave blank if no preference"
+                />
+              </label>
+
+              <h2>Are you open to study in Canada?</h2>
+              <label htmlFor="study">
+                <select
+                  {...register("studyInCanada")}
+                  name="studyInCanada"
+                  form=""
+                >
+                  <option value="yes">yes</option>
+                  <option value="no">No</option>
+                </select>
               </label>
             </>
           )}
-        </>
-      )}
-    </>}
-          {formItem === 5 && (
-            <English formItem={formItem} setFormItem={setFormItem} />
+          {formItem === 8 && (
+            <>
+              <h2>
+                Please confirm all information is correct before submitting
+              </h2>
+              <p>First Name: {watch("firstName")}</p>
+              <p>Last Name: {watch("lastName")}</p>
+              <p>Email: {watch("email")}</p>
+              <p>Email: {watch("email")}</p>
+              <p>Phone Number: {watch("phoneNumber")}</p>
+
+              <button>Submit</button>
+            </>
           )}
-          {formItem === 6 && (
-            <Married formItem={formItem} setFormItem={setFormItem} />
-          )}
-          {formItem === 7 && <Province />}
-          {formItem === 8 && <>
-      <h2>Please confirm all information is correct before submitting</h2>
-        <p>First Name: {watch("firstName")}</p>
-        <p>Last Name: {watch("lastName")}</p>
-        <p>Email: {watch('email')}</p>
-      
-      
-      
-      <button>Submit</button>
-    </>}
         </form>
 
         {formItem !== 1 && (
