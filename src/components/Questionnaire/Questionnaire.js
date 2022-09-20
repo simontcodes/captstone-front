@@ -1,19 +1,28 @@
 import "./Questionnaire.scss";
-
-import Married from "../Married/Married";
-import Province from "../Province/Province";
-
 import NextIcon from "../../assets/icons/next.svg";
 import PreviousIcon from "../../assets/icons/previous.svg";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import "yup-phone";
+import Reference from "yup/lib/Reference";
 
+
+
+
+
+//YUP schema to list out every type of validation
 const schema = yup.object().shape({
   firstName: yup.string().required(),
   lastName: yup.string().required(),
   email: yup.string().email().required(),
+  phoneNumber: yup.string().phone().required(),
+  // educationLevel: yup.().required(),
+  englishSpeaking: yup.number().required().positive().integer().max(12, 'The maximum is 12'),
+  englishWriting: yup.number().required().positive().integer().max(12, 'The maximum is 12'),
+  englishListening: yup.number().required().positive().integer().max(12, 'The maximum is 12'),
+  englishReading: yup.number().required().positive().integer().max(12, 'The maximum is 12')
 });
 
 function Questionnaire() {
@@ -29,7 +38,7 @@ function Questionnaire() {
   const [hasEnglish, setHasEnglish] = useState(false);
   // -------state to display is married form step 6------------
   const [isMarried, setIsMarried] = useState(null);
-  // trying to use react hook form with yups
+  // trying to use react hook form with yup
   const {
     register,
     handleSubmit,
@@ -37,14 +46,13 @@ function Questionnaire() {
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
+    mode: "onTouched"
   });
 
   //function passed to handleSubmit
   const submitForm = (data) => {
     console.log(data);
   };
-
-  console.log(watch("firstName"));
 
   //logic to show pieces of the form
   function nextQuestion() {
@@ -159,6 +167,7 @@ function Questionnaire() {
                   {...register("phoneNumber")}
                 />
               </label>
+              <p> {errors.phoneNumber?.message} </p>
             </>
           )}
           {formItem === 2 && (
@@ -227,6 +236,7 @@ function Questionnaire() {
                   </option>
                 </select>
               </label>
+              <p> {errors.educationLevel?.message} </p>
             </>
           )}
           {formItem === 3 && (
@@ -237,7 +247,7 @@ function Questionnaire() {
               </h1>
               {workExp.map((jobExp) => {
                 return (
-                  <>
+                  <div key={jobExp}>
                     <label htmlFor="job1">
                       Job title:
                       <input
@@ -255,7 +265,7 @@ function Questionnaire() {
                         name={`yearsOfExp${jobExp + 1}`}
                       />
                     </label>
-                  </>
+                  </div>
                 );
               })}
               <button onClick={handleWorkExp}> Add another job </button>
@@ -387,6 +397,7 @@ function Questionnaire() {
                   <label htmlFor="english-test">
                     Select which english test have you taken:
                     <select
+                    
                       {...register("englishTest")}
                       name="englishTest"
                       form="c"
@@ -406,6 +417,7 @@ function Questionnaire() {
                       name="englishSpeaking"
                     />
                   </label>
+                  <p> {errors.englishSpeaking?.message} </p>
                   <label htmlFor="listening">
                     Enter score for listening:
                     <input
@@ -414,6 +426,7 @@ function Questionnaire() {
                       name="englishListening"
                     />
                   </label>
+                  <p> {errors.englishListening?.message} </p>
                   <label htmlFor="reading">
                     Enter score for reading:
                     <input
@@ -422,6 +435,7 @@ function Questionnaire() {
                       name="englishReading"
                     />
                   </label>
+                  <p> {errors.englishReading?.message} </p>
                   <label htmlFor="writing">
                     Enter score for writing:
                     <input
@@ -430,6 +444,7 @@ function Questionnaire() {
                       name="englishWriting"
                     />
                   </label>
+                  <p> {errors.englishWriting?.message} </p>
                 </>
               )}
             </>
@@ -463,7 +478,6 @@ function Questionnaire() {
                 <select
                   {...register("provinceOfPreference")}
                   name="provinceOfPreference"
-                  
                 >
                   <option value="any province">
                     Any province or territory
@@ -504,10 +518,7 @@ function Questionnaire() {
 
               <h2>Are you open to study in Canada?</h2>
               <label htmlFor="study">
-                <select
-                  {...register("studyInCanada")}
-                  name="studyInCanada"
-                >
+                <select {...register("studyInCanada")} name="studyInCanada">
                   <option value="yes">yes</option>
                   <option value="no">No</option>
                 </select>
@@ -526,12 +537,12 @@ function Questionnaire() {
               <p>Highest Education Level: {watch("educationLevel")}</p>
               {workExp.map((job) => {
                 return (
-                  <>
+                  <div key={job}>
                     <p>
                       job exp: {watch(`job${job + 1}`)} Years of experience:
                       {watch(`yearsOfExp${job + 1}`)}
                     </p>
-                  </>
+                    </div>
                 );
               })}
               {watch("canadaVisitor") && (
@@ -555,11 +566,11 @@ function Questionnaire() {
                   {watch("englishSpeaking")}
                 </p>
               )}
-               {watch("provinceOfPreference") && (
+              {watch("provinceOfPreference") && (
                 <p>
-                  Province of preference: {watch("provinceOfPreference")} Years of
-                  City of preference: {watch("cityOfPreference")}{" "}
-                  Willing to study in Canada: {watch("studyInCanada")}
+                  Province of preference: {watch("provinceOfPreference")} Years
+                  of City of preference: {watch("cityOfPreference")} Willing to
+                  study in Canada: {watch("studyInCanada")}
                 </p>
               )}
 
