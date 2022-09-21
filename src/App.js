@@ -9,8 +9,10 @@ import QuestionnairePage from "./pages/QuestionnairePage";
 import LoginPage from "./pages/LoginPage";
 import ClientsPage from "./pages/ClientsPage";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
+
+
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -18,10 +20,30 @@ function App() {
   const [errorMessage, setErrorMessage] = useState("");
 
   const URLlogin = "http://localhost:8080/login";
+  const URLprofile = "http://localhost:8080/clients";
 
+  //--------------
+  useEffect(() => {
+    // Here grab the token from sessionStorage and then make an axios request to profileUrl endpoint.
+    axios
+      .get(URLprofile, {
+        headers: {
+          authorization: `Bearer ${localStorage.getItem("JWTtoken")}`,
+        },
+      })
+      .then((response) => {
+        setIsLoggedIn(true)
+        
+      })
+      .catch((error) => {
+        console.log(error);
+       
+      });
+    // Remember to include the token in Authorization header
+  }, []);
+//--------------
   function handleLogin(event) {
     event.preventDefault();
-
     axios
       .post(URLlogin, {
         email: event.target.email.value,
@@ -30,7 +52,7 @@ function App() {
       .then((response) => {
         console.log(response.data);
         localStorage.setItem("JWTtoken", response.data.token);
-
+        
         setIsLoggedIn(true);
         setIsLoginError(false);
         setErrorMessage("");

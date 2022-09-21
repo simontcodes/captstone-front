@@ -7,10 +7,9 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import "yup-phone";
 import Reference from "yup/lib/Reference";
+import axios from "axios";
 
-
-
-
+const URLPostForm = "http://localhost:8080/clientsPost";
 
 //YUP schema to list out every type of validation
 const schema = yup.object().shape({
@@ -18,11 +17,34 @@ const schema = yup.object().shape({
   lastName: yup.string().required(),
   email: yup.string().email().required(),
   phoneNumber: yup.string().phone().required(),
-  // educationLevel: yup.().required(),
-  englishSpeaking: yup.number().required().positive().integer().max(12, 'The maximum is 12'),
-  englishWriting: yup.number().required().positive().integer().max(12, 'The maximum is 12'),
-  englishListening: yup.number().required().positive().integer().max(12, 'The maximum is 12'),
-  englishReading: yup.number().required().positive().integer().max(12, 'The maximum is 12')
+  educationLevel: yup.string().required(),
+  englishSpeaking: yup
+    .number()
+    .positive()
+    .integer()
+    .max(12, "The maximum is 12"),
+  englishWriting: yup
+    .number()
+    .positive()
+    .integer()
+    .max(12, "The maximum is 12"),
+  englishListening: yup
+    .number()
+    .positive()
+    .integer()
+    .max(12, "The maximum is 12"),
+  englishReading: yup
+    .number()
+    .positive()
+    .integer()
+    .max(12, "The maximum is 12"),
+    canadaStudent: yup.string(),
+    canadaWorker: yup.string(),
+    canadaYearsOfExpirience: yup.string(),
+    canadaVisitor: yup.date(),
+    studyInCanada: yup.string().required(),
+
+
 });
 
 function Questionnaire() {
@@ -46,12 +68,52 @@ function Questionnaire() {
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
-    mode: "onTouched"
+    mode: "onTouched",
   });
 
   //function passed to handleSubmit
   const submitForm = (data) => {
     console.log(data);
+    //array to be sent in the post with the list of jobs
+    let workExpArray = [];
+
+    for (let i = 0; i < workExp.length; i++){
+      workExpArray.push({
+          jobTitle: data["job" +`${i +1}`],
+          yearsOfExperience: data['yearsOfExp' + `${i +1}`]
+      });
+
+    }
+    console.log(workExpArray);
+
+
+    axios
+      .post(URLPostForm, {
+        firstName: data.firstName,
+        lastName: data.lastName,
+        email: data.email,
+        phoneNumber: data.phoneNumber,
+        educationLevel: data.educationLevel,
+        canadaVisitor: data.canadaVisitor,
+        canadaStudent: data.canadaStudent,
+        canadaWorker: data.canadaWorker,
+        canadaYearsOfExpirience: data.canadaYearsOfExpirience,
+        studyInCanada: data.studyInCanada,
+        englishTest: data.englishTest,
+        englishListening: data.englishListening,
+        englishReading: data.englishReading,
+        englishSpeaking: data.englishSpeaking,
+        englishWriting: data.englishWriting,
+        provinceOfPreference: data.provinceOfPreference,
+        cityOfPreference: data.cityOfPreference,
+        jobs: JSON.stringify(workExpArray)
+      })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   //logic to show pieces of the form
@@ -248,7 +310,7 @@ function Questionnaire() {
               {workExp.map((jobExp) => {
                 return (
                   <div key={jobExp}>
-                    <label htmlFor="job1">
+                    <label htmlFor="job">
                       Job title:
                       <input
                         {...register(`job${jobExp + 1}`)}
@@ -318,6 +380,8 @@ function Questionnaire() {
                       name="canadaVisitor"
                     />
                   </label>
+                  <p> {errors.canadaVisitor?.message} </p>
+                  
                 </>
               )}
               {typeOfStay === "study" && (
@@ -335,6 +399,7 @@ function Questionnaire() {
                   </button>
 
                   {hasStudy && (
+                    <>
                     <label htmlFor="study">
                       Enter program studied in Canada:
                       <input
@@ -343,6 +408,8 @@ function Questionnaire() {
                         name="canadaStudent"
                       />
                     </label>
+                    <p> {errors.canadaStudent?.message} </p>
+                    </>
                   )}
                 </>
               )}
@@ -367,6 +434,7 @@ function Questionnaire() {
                           name="canadaYearsOfExpirience"
                         />
                       </label>
+                      <p> {errors.canadaYearsOfExpirience?.message} </p>
                       <label htmlFor="job-title">
                         Job title:
                         <input
@@ -375,6 +443,7 @@ function Questionnaire() {
                           name="canadaWorker"
                         />
                       </label>
+                      <p> {errors.canadaWorker?.message} </p>
                     </>
                   )}
                 </>
@@ -409,6 +478,7 @@ function Questionnaire() {
                       <option value="CELPIP">CELPIP</option>
                     </select>
                   </label>
+                  <p> {errors.englishTest?.message} </p>
                   <label htmlFor="speaking">
                     Enter score for speaking:
                     <input
@@ -449,7 +519,7 @@ function Questionnaire() {
               )}
             </>
           )}
-          {formItem === 6 && (
+          {/* {formItem === 6 && (
             <>
               <h2>Are you married or in common law?</h2>
               <button
@@ -467,9 +537,9 @@ function Questionnaire() {
                 No
               </button>
 
-              {/* ----------------add forms here-------------- */}
+              
             </>
-          )}
+          )} */}
           {formItem === 7 && (
             <>
               <h2>Do you have a province or city of preference?</h2>
@@ -522,6 +592,7 @@ function Questionnaire() {
                   <option value="yes">yes</option>
                   <option value="no">No</option>
                 </select>
+                <p> {errors.studyInCanada?.message} </p>
               </label>
             </>
           )}
@@ -542,7 +613,7 @@ function Questionnaire() {
                       job exp: {watch(`job${job + 1}`)} Years of experience:
                       {watch(`yearsOfExp${job + 1}`)}
                     </p>
-                    </div>
+                  </div>
                 );
               })}
               {watch("canadaVisitor") && (

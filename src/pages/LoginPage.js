@@ -1,9 +1,22 @@
 import Login from "../components/Login/Login";
+import { useNavigate } from "react-router-dom";
 
+//use this function to redirect from other pages
 
+function LogInPage({
+  handleLogin,
+  isLoggedIn,
+  isLoginError,
+  errorMessage,
+}) {
+  const navigate = useNavigate();
+  
+  if(isLoggedIn){
+    setTimeout(() => {
+      navigate("/clients");
+    }, 1000)
+}
 
-function LogInPage({ handleLogin, handleLogout, isLoggedIn, isLoginError, errorMessage}) {
- 
 
   if (!isLoggedIn)
     return (
@@ -16,9 +29,8 @@ function LogInPage({ handleLogin, handleLogout, isLoggedIn, isLoginError, errorM
   return (
     <>
       <div className="">
-        <h1>You are Logged in!</h1>
+        <h1>You were succesfully logged in!</h1>
       </div>
-      <button onClick={handleLogout}>Log Out</button>
     </>
   );
 }
