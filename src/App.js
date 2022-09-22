@@ -22,7 +22,7 @@ function App() {
   const URLlogin = "http://localhost:8080/login";
   const URLprofile = "http://localhost:8080/clients";
 
-  //--------------
+  //--------------this axios call is to check if user is loggedin-----
   useEffect(() => {
     // Here grab the token from sessionStorage and then make an axios request to profileUrl endpoint.
     axios
@@ -39,7 +39,6 @@ function App() {
         console.log(error);
        
       });
-    // Remember to include the token in Authorization header
   }, []);
 //--------------
   function handleLogin(event) {

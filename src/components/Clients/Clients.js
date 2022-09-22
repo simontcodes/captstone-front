@@ -23,7 +23,7 @@ function Clients() {
       })
       .catch((error) => {
         console.log(error);
-        setAxiosError(error)
+        setAxiosError(error);
       });
     // Remember to include the token in Authorization header
   }, []);
@@ -31,7 +31,7 @@ function Clients() {
   if (!clientInfo) {
     return <h1>Loading Data</h1>;
   }
-//if http request fails show the error message
+  //if http request fails show the error message
   if (!clientInfo && axiosError) {
     return <p>{axiosError}</p>;
   }
@@ -42,7 +42,15 @@ function Clients() {
         return (
           <p key={client.id}>
             {client.firstName}, {client.lastName}, {client.email},{" "}
-            {client.phoneNumber}{" "}
+            {client.phoneNumber} {client.educationLevel}
+            {client.englishTest}
+            {client.englishWriting}
+            {client.englishSpeaking}
+            {client.englishListening}
+            {client.englishReading}
+            {client.studyInCanada}
+            {client.provinceOfPreference}
+            {client.cityOfPreference}
           </p>
         );
       })}
