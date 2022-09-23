@@ -1,5 +1,5 @@
 import "./Header.scss";
-import Logo from "../../assets/logo/logo.svg";
+import Logo from "../../assets/logo/cmLogo.png";
 import { NavLink } from "react-router-dom";
 
 function Header({ isLoggedIn, handleLogout }) {

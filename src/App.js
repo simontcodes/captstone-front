@@ -11,6 +11,7 @@ import ClientsPage from "./pages/ClientsPage";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import SucessPage from "./pages/SuccessPage";
 
 
 
@@ -90,6 +91,7 @@ function App() {
             }
           />
           <Route path="clients" element={<ClientsPage />} />
+          <Route path="success" element={<SucessPage />} />
         </Routes>
         <Footer />
       </BrowserRouter>

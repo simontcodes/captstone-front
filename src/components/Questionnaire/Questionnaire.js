@@ -60,7 +60,7 @@ function Questionnaire() {
   const [hasEnglish, setHasEnglish] = useState(false);
   // -------state to display is married form step 6------------
   const [isMarried, setIsMarried] = useState(null);
-  // trying to use react hook form with yup
+  // react hook form with yup
   const {
     register,
     handleSubmit,
@@ -70,6 +70,11 @@ function Questionnaire() {
     resolver: yupResolver(schema),
     mode: "onTouched",
   });
+
+//getting appointment info from session storage to be pass in the post request
+  let dateAndTime = sessionStorage.getItem("dateAndTime").slice(0, 24);
+  let dateOfAppointment = dateAndTime.substring(0, 15);
+  let timeOfAppointment = dateAndTime.substring(16);
 
   //function passed to handleSubmit
   const submitForm = (data) => {
@@ -82,10 +87,8 @@ function Questionnaire() {
           jobTitle: data["job" +`${i +1}`],
           yearsOfExperience: data['yearsOfExp' + `${i +1}`]
       });
-
     }
-    console.log(workExpArray);
-
+    
 
     axios
       .post(URLPostForm, {
@@ -106,10 +109,14 @@ function Questionnaire() {
         englishWriting: data.englishWriting,
         provinceOfPreference: data.provinceOfPreference,
         cityOfPreference: data.cityOfPreference,
-        jobs: JSON.stringify(workExpArray)
+        jobs: JSON.stringify(workExpArray),
+        typeOfService: sessionStorage.getItem("typeOfService"),
+        dateOfAppointment: dateOfAppointment,
+        timeOfAppointment: timeOfAppointment
       })
       .then((response) => {
         console.log(response);
+        window.location.href = "http://localhost:3000/success";
       })
       .catch((error) => {
         console.log(error);
