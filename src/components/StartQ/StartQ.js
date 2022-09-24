@@ -7,7 +7,7 @@ function StartQ() {
       <div className="start__container">
         <div className="start__container-left">
           <p>Free consultation</p>
-          <Link to="/questionnaire">
+          <Link to="/comingsoon">
             <button>Start Now</button>
           </Link>
         </div>

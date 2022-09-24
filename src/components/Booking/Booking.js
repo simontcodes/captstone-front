@@ -35,7 +35,6 @@ function Booking({ handleBooking }) {
     console.log(data);
     setService(watch(service));
   };
-  console.log(watch("service"));
 
 
   function handlePayment() {

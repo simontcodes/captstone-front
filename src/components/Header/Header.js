@@ -28,6 +28,8 @@ function Header({ isLoggedIn, handleLogout }) {
               </li>}
               {isLoggedIn && <li> <button onClick={handleLogout}>Log out</button> 
               </li>}
+              {isLoggedIn && <li> <NavLink className='nav__link' to="clients">Clients</NavLink> 
+              </li>}
               
             </ul>
           

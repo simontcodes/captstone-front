@@ -12,6 +12,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import SucessPage from "./pages/SuccessPage";
+import ComingSoon from "./components/ComingSoon";
+import ClientDetailsPage from "./pages/ClientDetailsPage";
 
 
 
@@ -78,6 +80,7 @@ function App() {
           <Route path="contact-us" element={<ContactPage />} />
           <Route path="questionnaire" element={<QuestionnairePage />} />
           <Route path="booking" element={<BookingPage />} />
+          <Route path="comingsoon" element={<ComingSoon />} />
           <Route
             path="login"
             element={
@@ -91,6 +94,7 @@ function App() {
             }
           />
           <Route path="clients" element={<ClientsPage />} />
+          <Route path="/clients/client/:id" element={<ClientDetailsPage />}/>
           <Route path="success" element={<SucessPage />} />
         </Routes>
         <Footer />

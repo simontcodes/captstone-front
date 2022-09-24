@@ -1,6 +1,4 @@
-$tablet: 768px;
-$desktop: 1280px;
-
+@use "../partials/variables" as *;
 
 @mixin tablet {
     @media (min-width:$tablet) {
