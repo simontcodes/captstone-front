@@ -14,6 +14,7 @@ import axios from "axios";
 import SucessPage from "./pages/SuccessPage";
 import ComingSoon from "./components/ComingSoon";
 import ClientDetailsPage from "./pages/ClientDetailsPage";
+import AppointmentsPage from "./pages/AppointmentsPage";
 
 
 
@@ -69,6 +70,7 @@ function App() {
   const handleLogout = (event) => {
     setIsLoggedIn(false);
     localStorage.removeItem("JWTtoken");
+    window.location.href = "http://localhost:3000";
   };
   return (
     <div className="App">
@@ -94,7 +96,8 @@ function App() {
             }
           />
           <Route path="clients" element={<ClientsPage />} />
-          <Route path="/clients/client/:clientId" element={<ClientDetailsPage />}/>
+          <Route path="clients/client/:clientId" element={<ClientDetailsPage />}/>
+          <Route path="appointments" element={<AppointmentsPage />}/>
           <Route path="success" element={<SucessPage />} />
         </Routes>
         <Footer />
