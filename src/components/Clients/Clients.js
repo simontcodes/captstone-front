@@ -6,6 +6,7 @@ import sortArrows from "../../assets/icons/sort-24px.svg";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
 
 function Clients() {
   const [clientInfo, setClientInfo] = useState(null);
@@ -13,6 +14,46 @@ function Clients() {
 
   const baseUrl = "http://localhost:8080";
   const profileUrl = `${baseUrl}/clients`;
+
+  // react hook form useForm
+  const {
+    register,
+    watch,
+    formState: { errors },
+  } = useForm();
+
+
+  function handleKeyPress() {
+    const filteredClient = clientInfo.filter((client) =>
+      client.firstName.startsWith(`${watch("searchBar")}`)
+    );
+    console.log(filteredClient);
+    if (filteredClient.length) {
+      setClientInfo(filteredClient);
+    }
+    if (!watch("searchBar")) {
+      axios
+        .get(profileUrl, {
+          headers: {
+            authorization: `Bearer ${localStorage.getItem("JWTtoken")}`,
+          },
+        })
+        .then((response) => {
+          console.log(response.data);
+          setClientInfo(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+          setAxiosError(error);
+        });
+      // Remember to include the token in Authorization header
+    }
+  }
+
+  function handleSubmitSearch(event) {
+    event.preventDefault();
+  }
+
 
   useEffect(() => {
     // Here grab the token from sessionStorage and then make an axios request to profileUrl endpoint.
@@ -34,8 +75,6 @@ function Clients() {
   }, []);
 
   // --------------------trying to sort--------------------
-
-  const [allWarehouses, setAllWarehouses] = useState([]);
   // state to conditionally open the modal
   const [isOpen, setIsOpen] = useState(false);
   // state to reload component after delete
@@ -46,79 +85,93 @@ function Clients() {
     setSorted((current) => !current);
   }
 
-  function handleSortWarehouse() {
+  function handleSortName() {
     upOrDown();
     if (sorted) {
-      const sortedByName = allWarehouses.sort((a, b) => {
-        if (a.name < b.name) {
+      const sortedByName = clientInfo.sort((a, b) => {
+        if (a.firstName < b.firstName) {
           return -1;
         }
-        if (a.name > b.name) {
+        if (a.firstName > b.firstName) {
           return 1;
         }
         return 0;
       });
-      setAllWarehouses(sortedByName);
+      setClientInfo(sortedByName);
     }
 
     if (!sorted) {
-      const sortedByName = allWarehouses.sort((a, b) => {
-        if (a.name > b.name) {
+      const sortedByName = clientInfo.sort((a, b) => {
+        if (a.firstName > b.firstName) {
           return -1;
         }
-        if (a.name < b.name) {
+        if (a.firstName < b.firstName) {
           return 1;
         }
         return 0;
       });
-      setAllWarehouses(sortedByName);
+      setClientInfo(sortedByName);
     }
   }
 
-  function handleSortAddress() {
-    const sortedByName = allWarehouses.sort((a, b) => {
-      if (a.address < b.address) {
-        return -1;
-      }
-      if (a.address > b.address) {
-        return 1;
-      }
-      return 0;
-    });
+  function handleSortEmail() {
+    upOrDown();
+    if (sorted) {
+      const sortedByEmail = clientInfo.sort((a, b) => {
+        if (a.email < b.email) {
+          return -1;
+        }
+        if (a.email > b.email) {
+          return 1;
+        }
+        return 0;
+      });
+      setClientInfo(sortedByEmail);
+    }
 
-    setAllWarehouses(sortedByName);
-    setSorted(sorted + 1);
+    if (!sorted) {
+      const sortedByEmail = clientInfo.sort((a, b) => {
+        if (a.email > b.email) {
+          return -1;
+        }
+        if (a.email < b.email) {
+          return 1;
+        }
+        return 0;
+      });
+      setClientInfo(sortedByEmail);
+    }
   }
 
-  function handleSortContactName() {
-    const sortedByName = allWarehouses.sort((a, b) => {
-      if (a.contact.name < b.contact.name) {
-        return -1;
-      }
-      if (a.contact.name > b.contact.name) {
-        return 1;
-      }
-      return 0;
-    });
+  function handleSortPhoneNumber() {
+    upOrDown();
+    if (sorted) {
+      const sortedByPhoneNumber = clientInfo.sort((a, b) => {
+        if (a.phoneNumber < b.phoneNumber) {
+          return -1;
+        }
+        if (a.phoneNumber > b.phoneNumber) {
+          return 1;
+        }
+        return 0;
+      });
+      setClientInfo(sortedByPhoneNumber);
+    }
 
-    setAllWarehouses(sortedByName);
-    setSorted(sorted + 1);
+    if (!sorted) {
+      const sortedByPhoneNumber = clientInfo.sort((a, b) => {
+        if (a.phoneNumber > b.phoneNumber) {
+          return -1;
+        }
+        if (a.phoneNumber < b.phoneNumber) {
+          return 1;
+        }
+        return 0;
+      });
+      setClientInfo(sortedByPhoneNumber);
+    }
   }
 
-  function handleSortContactPhone() {
-    const sortedByName = allWarehouses.sort((a, b) => {
-      if (a.contact.email < b.contact.email) {
-        return -1;
-      }
-      if (a.contact.email > b.contact.email) {
-        return 1;
-      }
-      return 0;
-    });
-    setAllWarehouses(sortedByName);
-    setSorted(sorted + 1);
-  }
-  // -------end sorting---------------------
   //if the data isnt here yet
   if (!clientInfo) {
     return <h1>Loading Data</h1>;
@@ -129,16 +182,20 @@ function Clients() {
   }
 
   return (
-    
     <div className="warehouse">
       <header className="warehouse__header">
         <h1 className="warehouse__title">Clients</h1>
         <div className="warehouse__header-formbtn">
-          <form className="warehouse__form" action="">
+          <form className="warehouse__form" onSubmit={(event) => {
+                event.preventDefault();
+              }}>
             <input
+              onKeyDownCapture={handleKeyPress}
+              name="searchBar"
               type="text"
               placeholder="Search..."
               className="warehouse__header-input"
+              {...register("searchBar")}
             />
           </form>
 
@@ -154,7 +211,7 @@ function Clients() {
           <h4 className="warehouse__subheader-text">
             CLIENT{" "}
             <img
-              onClick={handleSortWarehouse}
+              onClick={handleSortName}
               className="warehouse__subheader-arrows"
               src={sortArrows}
               alt="sorting arrows"
@@ -165,7 +222,7 @@ function Clients() {
           <h4 className="warehouse__subheader-text">
             EMAIL{" "}
             <img
-              onClick={handleSortAddress}
+              onClick={handleSortEmail}
               className="warehouse__subheader-arrows"
               src={sortArrows}
               alt="sorting arrows"
@@ -176,7 +233,7 @@ function Clients() {
           <h4 className="warehouse__subheader-text">
             PHONE NUMBER{" "}
             <img
-              onClick={handleSortContactName}
+              onClick={handleSortPhoneNumber}
               className="warehouse__subheader-arrows"
               src={sortArrows}
               alt="sorting arrows"
@@ -187,7 +244,7 @@ function Clients() {
           <h4 className="warehouse__subheader-text">
             CITIZENSHIP{" "}
             <img
-              onClick={handleSortContactPhone}
+              // onClick={handleSortContactPhone}
               className="warehouse__subheader-arrows"
               src={sortArrows}
               alt="sorting arrows"
@@ -208,7 +265,7 @@ function Clients() {
                 Client
               </h4>
               <Link
-                to={`/warehouses/warehouse/${client.id}`}
+                to={`/clients/client/${client.id}`}
                 className="warehouse__card-link warehouse__card-info"
               >
                 {client.firstName} {client.lastName}
@@ -259,14 +316,3 @@ function Clients() {
 }
 
 export default Clients;
-
-// {client.email},{" "}
-//             {client.phoneNumber} {client.educationLevel}
-//             {client.englishTest}
-//             {client.englishWriting}
-//             {client.englishSpeaking}
-//             {client.englishListening}
-//             {client.englishReading}
-//             {client.studyInCanada}
-//             {client.provinceOfPreference}
-//             {client.cityOfPreference}

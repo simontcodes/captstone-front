@@ -94,7 +94,7 @@ function App() {
             }
           />
           <Route path="clients" element={<ClientsPage />} />
-          <Route path="/clients/client/:id" element={<ClientDetailsPage />}/>
+          <Route path="/clients/client/:clientId" element={<ClientDetailsPage />}/>
           <Route path="success" element={<SucessPage />} />
         </Routes>
         <Footer />
