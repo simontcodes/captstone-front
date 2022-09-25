@@ -8,7 +8,7 @@ function Header({ isLoggedIn, handleLogout }) {
       <div className="header__container">
         <nav className="nav">
           <div className="nav__logo">
-            <img src={Logo} alt="" />
+            <img className="nav__logo-image" src={Logo} alt="" />
           </div>
           <ul className="nav__links">
             <li>
@@ -34,15 +34,6 @@ function Header({ isLoggedIn, handleLogout }) {
               </li>
             )}
             {isLoggedIn && (
-              <li onClick={handleLogout}>
-                {" "}
-                <NavLink className="nav__link" to="clients">
-                  {" "}
-                  Log out{" "}
-                </NavLink>
-              </li>
-            )}
-            {isLoggedIn && (
               <li>
                 {" "}
                 <NavLink className="nav__link" to="clients">
@@ -55,6 +46,15 @@ function Header({ isLoggedIn, handleLogout }) {
                 {" "}
                 <NavLink className="nav__link" to="appointments">
                   Appointments
+                </NavLink>
+              </li>
+            )}
+             {isLoggedIn && (
+              <li onClick={handleLogout}>
+                {" "}
+                <NavLink className="nav__link" to="clients">
+                  {" "}
+                  Log out{" "}
                 </NavLink>
               </li>
             )}

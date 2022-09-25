@@ -1,0 +1,64 @@
+@use "../../styles/partials/fonts" as *;
+@use "../../styles/partials/breakpoints" as *;
+@use "../../styles/partials/variables" as *;
+@use "../../styles/partials/button" as *;
+
+
+.hero {
+  background-image: url("../../assets/images/hero-shot.jpg");
+  background-position: 15% 25%;
+  background-size: cover;
+  height: 92vh;
+
+  &__container {
+    margin: 0 auto;
+    width: 100%;
+    max-width: 1280px;
+    background-repeat: no-repeat;
+    height: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+
+  &__content {
+    margin-left: 2rem;
+    width: 35%;
+    
+    &-title {
+      color: white;
+      font-size: 4rem;
+      line-height: 4rem;
+    }
+  }
+
+  &__button {
+    @include buttons;
+    border: none;
+    background-color: $inactive;
+    color: $primary-background;
+    border-radius: 4px;
+    margin-left: 1rem;
+    padding: 0.3rem 0.5rem;
+  }
+  
+  &__button:hover {
+    cursor: pointer;
+    background-color: $cta-hover;
+  }
+
+
+  
+
+
+  &__overlay {
+    width: 100%; /* Full width (cover the whole page) */
+    height: 100%; /* Full height (cover the whole page) */
+    top: 10vh;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); 
+    z-index: 2; 
+  }
+}

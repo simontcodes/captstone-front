@@ -11,6 +11,9 @@ import { useForm } from "react-hook-form";
 function Clients() {
   const [clientInfo, setClientInfo] = useState(null);
   const [axiosError, setAxiosError] = useState("");
+   // state to reload component after delete
+   const [reload, setReload] = useState(1);
+  
 
   const baseUrl = "http://localhost:8080";
   const profileUrl = `${baseUrl}/clients`;
@@ -77,8 +80,7 @@ function Clients() {
   // --------------------trying to sort--------------------
   // state to conditionally open the modal
   const [isOpen, setIsOpen] = useState(false);
-  // state to reload component after delete
-  const [reload, setReload] = useState(1);
+ 
   const [sorted, setSorted] = useState(false);
 
   function upOrDown() {

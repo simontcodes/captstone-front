@@ -1,10 +1,10 @@
-import StartQ from '../components/StartQ/StartQ'
+import Hero from '../components/Hero/Hero'
 
 
 function Home () {
     return(
         <>
-        <StartQ />
+        <Hero />
         </>
     );
 }

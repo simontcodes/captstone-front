@@ -16,8 +16,6 @@ import ComingSoon from "./components/ComingSoon";
 import ClientDetailsPage from "./pages/ClientDetailsPage";
 import AppointmentsPage from "./pages/AppointmentsPage";
 
-
-
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoginError, setIsLoginError] = useState(false);
@@ -36,15 +34,13 @@ function App() {
         },
       })
       .then((response) => {
-        setIsLoggedIn(true)
-        
+        setIsLoggedIn(true);
       })
       .catch((error) => {
         // console.log(error);
-       
       });
   }, []);
-//--------------
+  //--------------
   function handleLogin(event) {
     event.preventDefault();
     axios
@@ -55,7 +51,7 @@ function App() {
       .then((response) => {
         console.log(response.data);
         localStorage.setItem("JWTtoken", response.data.token);
-        
+
         setIsLoggedIn(true);
         setIsLoginError(false);
         setErrorMessage("");
@@ -96,8 +92,11 @@ function App() {
             }
           />
           <Route path="clients" element={<ClientsPage />} />
-          <Route path="clients/client/:clientId" element={<ClientDetailsPage />}/>
-          <Route path="appointments" element={<AppointmentsPage />}/>
+          <Route
+            path="clients/client/:clientId"
+            element={<ClientDetailsPage />}
+          />
+          <Route path="appointments" element={<AppointmentsPage />} />
           <Route path="success" element={<SucessPage />} />
         </Routes>
         <Footer />
