@@ -1,0 +1,73 @@
+@use "../../styles/partials/variables" as*;
+
+.login {
+    width: 100%;
+    height: 70vh;
+    display: flex;
+
+    &__left {
+        width: 50%;
+        background-color: $inactive;
+        border-radius: 4px;
+    }
+
+    &__right {
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 8rem;
+    }
+
+    &__form {
+        width: 50%;
+    }
+
+    &__inputs {
+        width: 100%;
+        border: none;
+        border-bottom: 1px solid $outline-dividers-borders;
+        margin-bottom: 1rem;
+    }
+
+
+    &__inputs:focus{
+        border: none;
+        outline: none;
+        border-bottom: 1px solid $outline-dividers-borders;
+    }
+
+    &__forgot {
+        text-decoration: none;
+        list-style: none;
+        color: $outline-dividers-borders;
+        font-size: 0.8rem;
+        
+    }
+
+    &__buttons {
+        width: 100%;
+        font-family: $titillium-web;
+        margin-top: 0.5rem;
+    }
+
+    &__login {
+        width: 50%;
+        background-color: $inactive;
+        color: white;
+        border: none;
+        padding: 0.6rem;
+    }
+
+    &__login:hover {
+        background-color: $cta-hover;
+    }
+
+    &__register {
+        padding: 0.6rem;
+        background-color: $primary-text;
+        width: 50%;
+        color: white;
+        border: none;
+    }
+}
