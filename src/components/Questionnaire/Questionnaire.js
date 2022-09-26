@@ -38,13 +38,11 @@ const schema = yup.object().shape({
     .positive()
     .integer()
     .max(12, "The maximum is 12"),
-    canadaStudent: yup.string(),
-    canadaWorker: yup.string(),
-    canadaYearsOfExpirience: yup.string(),
-    canadaVisitor: yup.date(),
-    studyInCanada: yup.string().required(),
-
-
+  canadaStudent: yup.string(),
+  canadaWorker: yup.string(),
+  canadaYearsOfExpirience: yup.string(),
+  canadaVisitor: yup.date(),
+  studyInCanada: yup.string().required(),
 });
 
 function Questionnaire() {
@@ -71,7 +69,7 @@ function Questionnaire() {
     mode: "onTouched",
   });
 
-//getting appointment info from session storage to be pass in the post request
+  //getting appointment info from session storage to be pass in the post request
   let dateAndTime = sessionStorage.getItem("dateAndTime").slice(0, 24);
   let dateOfAppointment = dateAndTime.substring(0, 15);
   let timeOfAppointment = dateAndTime.substring(16);
@@ -82,13 +80,12 @@ function Questionnaire() {
     //array to be sent in the post with the list of jobs
     let workExpArray = [];
 
-    for (let i = 0; i < workExp.length; i++){
+    for (let i = 0; i < workExp.length; i++) {
       workExpArray.push({
-          jobTitle: data["job" +`${i +1}`],
-          yearsOfExperience: data['yearsOfExp' + `${i +1}`]
+        jobTitle: data["job" + `${i + 1}`],
+        yearsOfExperience: data["yearsOfExp" + `${i + 1}`],
       });
     }
-    
 
     axios
       .post(URLPostForm, {
@@ -112,7 +109,7 @@ function Questionnaire() {
         jobs: JSON.stringify(workExpArray),
         typeOfService: sessionStorage.getItem("typeOfService"),
         dateOfAppointment: dateOfAppointment,
-        timeOfAppointment: timeOfAppointment
+        timeOfAppointment: timeOfAppointment,
       })
       .then((response) => {
         console.log(response);
@@ -388,7 +385,6 @@ function Questionnaire() {
                     />
                   </label>
                   <p> {errors.canadaVisitor?.message} </p>
-                  
                 </>
               )}
               {typeOfStay === "study" && (
@@ -407,15 +403,15 @@ function Questionnaire() {
 
                   {hasStudy && (
                     <>
-                    <label htmlFor="study">
-                      Enter program studied in Canada:
-                      <input
-                        {...register("canadaStudent")}
-                        type="text"
-                        name="canadaStudent"
-                      />
-                    </label>
-                    <p> {errors.canadaStudent?.message} </p>
+                      <label htmlFor="study">
+                        Enter program studied in Canada:
+                        <input
+                          {...register("canadaStudent")}
+                          type="text"
+                          name="canadaStudent"
+                        />
+                      </label>
+                      <p> {errors.canadaStudent?.message} </p>
                     </>
                   )}
                 </>
@@ -473,7 +469,6 @@ function Questionnaire() {
                   <label htmlFor="english-test">
                     Select which english test have you taken:
                     <select
-                    
                       {...register("englishTest")}
                       name="englishTest"
                       form="c"
@@ -595,7 +590,8 @@ function Questionnaire() {
 
               <h2>Are you open to study in Canada?</h2>
               <label htmlFor="study">
-                <select {...register("studyInCanada")} name="studyInCanada">
+                <select defaultValue={""} {...register("studyInCanada")} name="studyInCanada">
+                <option disabled ></option>
                   <option value="yes">yes</option>
                   <option value="no">No</option>
                 </select>
@@ -667,6 +663,47 @@ function Questionnaire() {
             <img src={NextIcon} alt="" />
           </button>
         )}
+      </div>
+      <div className="progress">
+        <div onClick={() =>{setFormItem(1)}} className={`circle ${ (formItem >= 1) ? "done" : ""}`}>
+          <span className="label">1</span>
+          <span className="title">Personal</span>
+        </div>
+        <span className="bar done"></span>
+        <div onClick={() =>{setFormItem(2)}} className={`circle ${ (formItem >= 2) ? "done" : ""}`}>
+          <span className="label">2</span>
+          <span className="title">Education</span>
+        </div>
+        <span className="bar half"></span>
+        <div onClick={() =>{setFormItem(3)}} className={`circle ${ (formItem >= 3) ? "done" : ""}`}>
+          <span className="label">3</span>
+          <span className="title">Work</span>
+        </div>
+        <span className="bar"></span>
+        <div onClick={() =>{setFormItem(4)}} className={`circle ${ (formItem >= 4) ? "done" : ""}`}>
+          <span className="label">4</span>
+          <span className="title">Canada</span>
+        </div>
+        <span className="bar"></span>
+        <div onClick={() =>{setFormItem(5)}} className={`circle ${ (formItem >= 5) ? "done" : ""}`}>
+          <span className="label">5</span>
+          <span className="title">English</span>
+        </div>
+        <span className="bar"></span>
+        <div onClick={() =>{setFormItem(6)}} className={`circle ${ (formItem >= 6) ? "done" : ""}`}>
+          <span className="label">6</span>
+          <span className="title">Partner</span>
+        </div>
+        <span className="bar"></span>
+        <div onClick={() =>{setFormItem(7)}} className={`circle ${ (formItem >= 7) ? "done" : ""}`}>
+          <span className="label">7</span>
+          <span className="title">Preference</span>
+        </div>
+        <span className="bar"></span>
+        <div onClick={() =>{setFormItem(8)}} className={`circle ${ (formItem >= 8) ? "done" : ""}`}>
+          <span className="label">8</span>
+          <span className="title">Review</span>
+        </div>
       </div>
     </section>
   );
