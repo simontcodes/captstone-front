@@ -4,14 +4,14 @@
 
 
 body{
-    background-color: $page-background;
+    background-color: $header-background;
 }
 
 
 .header {
     background-color: $table-header-background;
     width: 100%;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid $outline-dividers-borders;
     height: 8vh;
 
     &__container {

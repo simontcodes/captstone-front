@@ -36,7 +36,6 @@ function Booking({ handleBooking }) {
     setService(watch(service));
   };
 
-
   function handlePayment() {
     if (!selectedDate || !watch("service")) {
       setErrorMessage("Date/time and type of service has to be selected");
@@ -62,82 +61,97 @@ function Booking({ handleBooking }) {
         setBackendError(error.message);
       });
   }
-  
 
   return (
     <>
-      <h1>this is the booking page</h1>
+      <h1 className="booking__title">Start your booking</h1>
+      <div className="booking">
+        <div className="booking__form-container">
+          <h2>Select type of service</h2>
+          <form className="booking__form" onSubmit={handleSubmit(onSubmit)}>
+            <div className="booking__inputs">
+              <input
+                {...register("service")}
+                type="radio"
+                name="service"
+                value={1}
+              />
+              <label htmlFor="service">30 Min Consultation $100</label>
+            </div>
+            <div className="booking__inputs">
+              <input
+                {...register("service")}
+                type="radio"
+                name="service"
+                value={2}
+              />
+              <label htmlFor="service">1 Hour Consultation $150</label>
+            </div>
+            <div className="booking__inputs">
+              <input
+                {...register("service")}
+                type="radio"
+                name="service"
+                value={3}
+              />
+              <label htmlFor="">Program Options Consultation $250</label>
+            </div>
+          </form>
+        </div>
 
-      <div className="date__container">
-        <DatePicker
-          selected={selectedDate}
-          onChange={(date) => {
-            setSelectedDate(date);
-          }}
-          // dateFormat="dd/MM/yyyy"
-          minDate={new Date()}
-          // maxDate={new Date()}
-          filterDate={(date) => date.getDay() !== 6 && date.getDay() !== 0}
-          showYearDropdown
-          scrollableYearDropdown
-          showTimeSelect
-          timeFormat="HH:mm"
-          timeIntervals={30}
-          timeCaption="time"
-          dateFormat="MMMM d, yyyy h:mm aa"
-          inline
-          excludeTimes={[
-            setHours(setMinutes(new Date(), 0), 17),
-            setHours(setMinutes(new Date(), 30), 18),
-            setHours(setMinutes(new Date(), 30), 19),
-            setHours(setMinutes(new Date(), 30), 17),
-          ]}
+        <div className="booking__date-picker-container">
+          <DatePicker
+            className="booking__date-picker"
+            selected={selectedDate}
+            onChange={(date) => {
+              setSelectedDate(date);
+            }}
+            // dateFormat="dd/MM/yyyy"
+            minDate={new Date()}
+            // maxDate={new Date()}
+            filterDate={(date) => date.getDay() !== 6 && date.getDay() !== 0}
+            showYearDropdown
+            scrollableYearDropdown
+            showTimeSelect
+            timeFormat="HH:mm"
+            timeIntervals={30}
+            timeCaption="time"
+            dateFormat="MMMM d, yyyy h:mm aa"
+            inline
+            excludeTimes={[
+              setHours(setMinutes(new Date(), 0), 17),
+              setHours(setMinutes(new Date(), 30), 18),
+              setHours(setMinutes(new Date(), 30), 19),
+              setHours(setMinutes(new Date(), 30), 17),
+            ]}
 
-          // monthsShown={2}
-        />
-        {console.log(selectedDate)}
-      </div>
-      <div>
-        <p>Select type of service</p>
-        <form action="" onSubmit={handleSubmit(onSubmit)}>
-          <label htmlFor="">
-            30 Min Consultation $100
-            <input
-              {...register("service")}
-              type="radio"
-              name="service"
-              value={1}
-            />
-          </label>
-          1 Hour Consultation $150
-          <label htmlFor="">
-            <input
-              {...register("service")}
-              type="radio"
-              name="service"
-              value={2}
-            />
-          </label>
-          <label htmlFor="">
-            Program Options Consultation $250
-            <input
-              {...register("service")}
-              type="radio"
-              name="service"
-              value={3}
-            />
-          </label>
-        </form>
-      </div>
-      <p>{backendError}</p>
-      <div>
-        <h2>Confirm date, time and type of service:</h2>
-        <p>service is: {watch("service")}</p>
-        <p>Date and time of Appointment: {`${selectedDate}`}</p>
-      </div>
-      <div>
-        <button onClick={handlePayment}>Make Payment</button>
-        <p>{errorMessage}</p>
+            // monthsShown={2}
+          />
+          {console.log(selectedDate)}
+        </div>
+
+        <p>{backendError}</p>
+        <div className="booking__confirm">
+          <div className="booking__confirm-text">
+            <h2 className="booking__confirm-title">
+              Confirm date, time and type of service:
+            </h2>
+            <h3>service is: {watch("service") == 1
+                  ? "30 Min Consultation"
+                  : watch("service") == 2
+                  ? "1 Hour Consultation"
+                  : watch("service") == 3
+                  ? "Option Program Consultation"
+                  : null}</h3>
+            <h3>Date and time of Appointment: {`${selectedDate}`.slice(0, 21)}</h3>
+          </div>
+          <div className="booking__payment">
+            <button className="booking__payment-button" onClick={handlePayment}>
+              Make Payment
+            </button>
+            <p>{errorMessage}</p>
+          </div>
+        </div>
       </div>
     </>
   );

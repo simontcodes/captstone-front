@@ -19,13 +19,16 @@ function BookingPage() {
   }
   return (
     <>
+     <main className="background">
+      <div className="background__card">
       {bookingCompleted === "booking" && (
         <Booking handleBooking={handleBooking} />
       )}
+      </div>
+    </main>
+    
 
-      {/* {bookingCompleted === "payment" && (
-        <Questionnaire handleBooking={handleBooking} />
-      )} */}
+    
     </>
   );
 }

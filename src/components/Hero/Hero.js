@@ -10,7 +10,7 @@ function Hero() {
           <div className="hero__content">
             <h1 className="hero__content-title">Your first step towards a future in Canada</h1>
             <Link to="/comingsoon">
-              <button className="hero__button">Start Now</button>
+              <button className="hero__button">Free Consultation</button>
             </Link>
   
             <Link to="/booking">
