@@ -54,6 +54,7 @@ body{
 
     }
 
+
     &__link {
         text-decoration: none;
         padding-left: 1rem;
@@ -62,5 +63,8 @@ body{
 
     &__link:visited {
         color: black;
+    }
+    &__link:hover {
+       font-weight: 700;
     }
 }

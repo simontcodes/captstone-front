@@ -7,7 +7,6 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import "yup-phone";
-import Reference from "yup/lib/Reference";
 import axios from "axios";
 import Modal from "../../components/Modal/Modal"
 

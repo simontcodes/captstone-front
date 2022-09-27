@@ -3,7 +3,7 @@ import ModalPhoto from "../../assets/images/booking-completed.jpg";
 
 function Modal() {
     function handleGoHome () {
-        window.location.href = "http://localhost:3000/success";
+        window.location.href = "http://localhost:3000";
     }
   return (
     <>
