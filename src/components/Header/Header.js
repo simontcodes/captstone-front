@@ -8,7 +8,9 @@ function Header({ isLoggedIn, handleLogout }) {
       <div className="header__container">
         <nav className="nav">
           <div className="nav__logo">
+            <NavLink className="nav__link" to="/">
             <img className="nav__logo-image" src={Logo} alt="" />
+            </NavLink>
           </div>
           <ul className="nav__links">
             <li>

@@ -9,6 +9,7 @@ import * as yup from "yup";
 import "yup-phone";
 import Reference from "yup/lib/Reference";
 import axios from "axios";
+import Modal from "../../components/Modal/Modal"
 
 const URLPostForm = "http://localhost:8080/clientsPost";
 
@@ -59,6 +60,8 @@ function Questionnaire() {
   const [hasEnglish, setHasEnglish] = useState(false);
   // -------state to display is married form step 6------------
   const [isMarried, setIsMarried] = useState(null);
+  //---------state to display Modal---------
+  const [isOpen, setIsOpen] = useState(false);
   // react hook form with yup
   const {
     register,
@@ -114,7 +117,9 @@ function Questionnaire() {
       })
       .then((response) => {
         console.log(response);
-        window.location.href = "http://localhost:3000/success";
+        setIsOpen(true)
+        console.log(isOpen)
+        
       })
       .catch((error) => {
         console.log(error);
@@ -193,7 +198,11 @@ function Questionnaire() {
   ];
   //----------------------------------
   return (
+    <>
+    {isOpen && <Modal />}
+    
     <section className="questions">
+      
       <div className="questions__container">
         <h1 className="questions__title">{formTitles[formItem - 1]}</h1>
         <form
@@ -877,6 +886,7 @@ function Questionnaire() {
         </div>
       </div>
     </section>
+    </>
   );
 }
 
