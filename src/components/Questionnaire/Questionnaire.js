@@ -1,7 +1,7 @@
 import "./Questionnaire.scss";
 import NextIcon from "../../assets/icons/next.svg";
 import PreviousIcon from "../../assets/icons/previous.svg";
-import PlusSquare from "../../assets/icons/plus-square.svg"
+import PlusSquare from "../../assets/icons/plus-square.svg";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -147,6 +147,7 @@ function Questionnaire() {
 
   function hasNotBeen(event) {
     setBeenCanada(false);
+    setFormItem(formItem + 1);
     event.preventDefault();
   }
 
@@ -215,7 +216,10 @@ function Questionnaire() {
                     placeholder="First Name"
                     {...register("firstName")}
                   />
-                  <span> {errors.firstName?.message} </span>
+                  <span className="form__error">
+                    {" "}
+                    {errors.firstName?.message}{" "}
+                  </span>
                 </label>
 
                 <label
@@ -267,152 +271,172 @@ function Questionnaire() {
           )}
           {formItem === 2 && (
             <>
-                <select
-                  className="form__input-text form__education"
-                  {...register("educationLevel")}
-                  name="educationLevel"
+              <select
+                className="form__input-text form__education"
+                {...register("educationLevel")}
+                name="educationLevel"
+              >
+                <option value="None, or less than secondary(high school)">
+                  None, or less than secondary(high school)
+                </option>
+                <option value="Secondary diploma (high school graduation)">
+                  Secondary diploma (high school graduation)
+                </option>
+                <option
+                  value="One-year program at a university, college, trade or technical
+          school, or another institute"
                 >
-                  <option value="None, or less than secondary(high school)">
-                    None, or less than secondary(high school)
-                  </option>
-                  <option value="Secondary diploma (high school graduation)">
-                    Secondary diploma (high school graduation)
-                  </option>
-                  <option
-                    value="One-year program at a university, college, trade or technical
-          school, or another institute"
-                  >
-                    One-year program at a university, college, trade or
-                    technical school, or another institute
-                  </option>
-                  <option
-                    value="Two-year program at a university, college, trade or technical
-          school, or another institute"
-                  >
-                    Two-year program at a university, college, trade or
-                    technical school, or another institute
-                  </option>
-                  <option
-                    value="Bachelor's degree(three or more year program at a university,
+                  One-year program at a university, college, trade or technical
+                  school
+                </option>
+                <option
+                  value="Two-year program at a university, college, trade or technical
+          school"
+                >
+                  Two-year program at a university, college, trade or technical
+                  school
+                </option>
+                <option
+                  value="Bachelor's degree(three or more year program at a university,
           college, trade or technical school, or another institute)"
-                  >
-                    Bachelor's degree(three or more year program at a
-                    university, college, trade or technical school, or another
-                    institute)
-                  </option>
-                  <option
-                    value="Two or more certificates, diplomas or degrees. One must be for a
+                >
+                  Bachelor's degree(three or more year program at a university,
+                  college, trade or technical school)
+                </option>
+                <option
+                  value="Two or more certificates, diplomas or degrees. One must be for a
           program of three or more years"
-                  >
-                    Two or more certificates, diplomas or degrees. One must be
-                    for a program of three or more years
-                  </option>
-                  <option
-                    value="Two-year program at a university, college, trade or technical
+                >
+                  Two or more certificates, diplomas or degrees. One must be for
+                  a program of three or more years
+                </option>
+                <option
+                  value="Two-year program at a university, college, trade or technical
           school, or another institute"
-                  >
-                    Two-year program at a university, college, trade or
-                    technical school, or another institute
-                  </option>
-                  <option
-                    value="Master's degree, or professional degree needed to practice in a
+                >
+                  Two-year program at a university, college, trade or technical
+                  school, or another institute
+                </option>
+                <option
+                  value="Master's degree, or professional degree needed to practice in a
           licensed profession"
-                  >
-                    Master's degree, or professional degree needed to practice
-                    in a licensed profession
-                  </option>
-                  <option value="Doctoral level university degree(PhD)">
-                    Doctoral level university degree(PhD)
-                  </option>
-                </select>
-                <span> {errors.educationLevel?.message} </span>
-             
+                >
+                  Master's degree, or professional degree needed to practice in
+                  a licensed profession
+                </option>
+                <option value="Doctoral level university degree(PhD)">
+                  Doctoral level university degree(PhD)
+                </option>
+              </select>
+              <span className="form__error">
+                {" "}
+                {errors.educationLevel?.message}{" "}
+              </span>
             </>
           )}
           {formItem === 3 && (
             <>
-            <div className="form__work-exp">
-              {workExp.map((jobExp) => {
-                return (
-                  <div className="form__two-inputs form__work-inputs" key={jobExp}>
-                    <label className="form__full-name" htmlFor="job">
-                      Job title:
-                      <input
-                      className="form__input-text"
-                        {...register(`job${jobExp + 1}`)}
-                        type="text"
-                        name={`job${jobExp + 1}`}
-                        placeholder="enter occupation"
-                      />
-                    </label>
-                    <label className="form__full-name" htmlFor="yearsOfExp">
-                      Years of experience:
-                      <input
-                       className="form__input-text"
-                        {...register(`yearsOfExp${jobExp + 1}`)}
-                        type="number"
-                        name={`yearsOfExp${jobExp + 1}`}
-                      />
-                    </label>
-                  </div>
-                );
-              })}
-             <h4 onClick={handleWorkExp} className="form__work-title"><img  src={PlusSquare} alt="Plus Icon" />  add another work experience</h4> 
+              <div className="form__work-exp">
+                {workExp.map((jobExp) => {
+                  return (
+                    <div
+                      className="form__two-inputs form__work-inputs"
+                      key={jobExp}
+                    >
+                      <label className="form__full-name" htmlFor="job">
+                        Job title:
+                        <input
+                          className="form__input-text"
+                          {...register(`job${jobExp + 1}`)}
+                          type="text"
+                          name={`job${jobExp + 1}`}
+                          placeholder="enter occupation"
+                        />
+                      </label>
+                      <label className="form__full-name" htmlFor="yearsOfExp">
+                        Years of experience:
+                        <input
+                          className="form__input-text"
+                          {...register(`yearsOfExp${jobExp + 1}`)}
+                          type="number"
+                          name={`yearsOfExp${jobExp + 1}`}
+                        />
+                      </label>
+                    </div>
+                  );
+                })}
+                <h4 onClick={handleWorkExp} className="form__work-title">
+                  <img src={PlusSquare} alt="Plus Icon" /> add another work
+                  experience
+                </h4>
               </div>
             </>
           )}
           {formItem === 4 && (
             <>
               {!beenCanada && (
-                <>
-                  <button onClick={hasBeen}>Yes</button>
-                  <button onClick={hasNotBeen}>No</button>
-                </>
+                <div className="form__button">
+                  <button className="form__button button" onClick={hasBeen}>
+                    Yes
+                  </button>
+                  <button className="form__button button" onClick={hasNotBeen}>
+                    No
+                  </button>
+                </div>
               )}
 
               {beenCanada && (
                 <>
-                  <h2>what was your status during your stay?</h2>
-                  <button
-                    onClick={(event) => {
-                      handleTypeOfStay("visitor", event);
-                    }}
-                  >
-                    Visitor
-                  </button>
-                  <button
-                    onClick={(event) => {
-                      handleTypeOfStay("study", event);
-                    }}
-                  >
-                    Studies
-                  </button>
-                  <button
-                    onClick={(event) => {
-                      handleTypeOfStay("work", event);
-                    }}
-                  >
-                    Worker
-                  </button>
+                  <h2>As a:</h2>
+                  <div className="form__button">
+                    <button
+                      className="button"
+                      onClick={(event) => {
+                        handleTypeOfStay("visitor", event);
+                      }}
+                    >
+                      Visitor
+                    </button>
+                    <button
+                      className="button"
+                      onClick={(event) => {
+                        handleTypeOfStay("study", event);
+                      }}
+                    >
+                      Student
+                    </button>
+                    <button
+                      className="button"
+                      onClick={(event) => {
+                        handleTypeOfStay("work", event);
+                      }}
+                    >
+                      Worker
+                    </button>
+                  </div>
                 </>
               )}
               {typeOfStay === "visitor" && (
                 <>
-                  <h2>When did or will your visa expire?</h2>
-                  <label htmlFor="visa-expires">
+                  <h4>When did or will your visa expire?</h4>
+                  <label className="form__label" htmlFor="visa-expires">
                     Date of expiry:
                     <input
+                      className="form__input-text"
                       {...register("canadaVisitor")}
                       type="date"
                       name="canadaVisitor"
                     />
                   </label>
-                  <p> {errors.canadaVisitor?.message} </p>
+                  <p className="form__error">
+                    {" "}
+                    {errors.canadaVisitor?.message}{" "}
+                  </p>
                 </>
               )}
               {typeOfStay === "study" && (
                 <>
-                  <h2>
+                  {/* <h2>
                     Have you studied in Canada a degree, diploma or
                     certificate??
                   </h2>
@@ -422,75 +446,92 @@ function Questionnaire() {
                     }}
                   >
                     Yes
-                  </button>
+                  </button> */}
 
-                  {hasStudy && (
-                    <>
-                      <label htmlFor="study">
-                        Enter program studied in Canada:
-                        <input
-                          {...register("canadaStudent")}
-                          type="text"
-                          name="canadaStudent"
-                        />
-                      </label>
-                      <p> {errors.canadaStudent?.message} </p>
-                    </>
-                  )}
+                  <>
+                    <label
+                      className="form__label form__spacing"
+                      htmlFor="study"
+                    >
+                      Enter program studied in Canada:
+                      <input
+                        className="form__input-text"
+                        {...register("canadaStudent")}
+                        type="text"
+                        name="canadaStudent"
+                      />
+                    </label>
+                    <span className="form__error">
+                      {" "}
+                      {errors.canadaStudent?.message}{" "}
+                    </span>
+                  </>
                 </>
               )}
               {typeOfStay === "work" && (
                 <>
-                  <h2>Have you worked in Canada??</h2>
+                  {/* <h2>Have you worked in Canada??</h2>
                   <button
                     onClick={(event) => {
                       handleHasWorked(event);
                     }}
                   >
                     Yes
-                  </button>
+                  </button> */}
 
-                  {hasWorked && (
-                    <>
-                      <label htmlFor="years-experience">
-                        Years of canadian work experience:
-                        <input
-                          {...register("canadaYearsOfExpirience")}
-                          type="number"
-                          name="canadaYearsOfExpirience"
-                        />
-                      </label>
-                      <p> {errors.canadaYearsOfExpirience?.message} </p>
-                      <label htmlFor="job-title">
-                        Job title:
-                        <input
-                          {...register("canadaWorker")}
-                          type="text"
-                          name="canadaWorker"
-                        />
-                      </label>
-                      <p> {errors.canadaWorker?.message} </p>
-                    </>
-                  )}
+                  <div className="form__two-inputs form__spacing">
+                    <label className="form__label" htmlFor="job-title">
+                      Job title:
+                      <input
+                        className="form__input-text"
+                        {...register("canadaWorker")}
+                        type="text"
+                        name="canadaWorker"
+                      />
+                    </label>
+                    <span className="form__error">
+                      {" "}
+                      {errors.canadaWorker?.message}{" "}
+                    </span>
+                    <label className="form__label" htmlFor="years-experience">
+                      Canadian work experience:
+                      <input
+                        className="form__input-text"
+                        {...register("canadaYearsOfExpirience")}
+                        type="number"
+                        name="canadaYearsOfExpirience"
+                      />
+                    </label>
+                    <span className="form__error">
+                      {" "}
+                      {errors.canadaYearsOfExpirience?.message}{" "}
+                    </span>
+                  </div>
                 </>
               )}
             </>
           )}
           {formItem === 5 && (
             <>
-              <button
-                onClick={(event) => {
-                  handleHasEnglish(event);
-                }}
-              >
-                Yes
-              </button>
-              <button onClick={nextQuestion}>No</button>
+              <div className="form__button">
+                <button
+                  className="button"
+                  onClick={(event) => {
+                    handleHasEnglish(event);
+                  }}
+                >
+                  Yes
+                </button>
+                <button className="button" onClick={nextQuestion}>
+                  No
+                </button>
+              </div>
               {hasEnglish && (
                 <>
-                  <label htmlFor="english-test">
+                  <label className="form__label" htmlFor="english-test">
                     Select which english test have you taken:
                     <select
+                      className="form__input-text"
                       {...register("englishTest")}
                       name="englishTest"
                       form="c"
@@ -502,43 +543,66 @@ function Questionnaire() {
                       <option value="CELPIP">CELPIP</option>
                     </select>
                   </label>
-                  <p> {errors.englishTest?.message} </p>
-                  <label htmlFor="speaking">
-                    Enter score for speaking:
-                    <input
-                      {...register("englishSpeaking")}
-                      type="number"
-                      name="englishSpeaking"
-                    />
-                  </label>
-                  <p> {errors.englishSpeaking?.message} </p>
-                  <label htmlFor="listening">
-                    Enter score for listening:
-                    <input
-                      {...register("englishListening")}
-                      type="number"
-                      name="englishListening"
-                    />
-                  </label>
-                  <p> {errors.englishListening?.message} </p>
-                  <label htmlFor="reading">
-                    Enter score for reading:
-                    <input
-                      {...register("englishReading")}
-                      type="number"
-                      name="englishReading"
-                    />
-                  </label>
-                  <p> {errors.englishReading?.message} </p>
-                  <label htmlFor="writing">
-                    Enter score for writing:
-                    <input
-                      {...register("englishWriting")}
-                      type="number"
-                      name="englishWriting"
-                    />
-                  </label>
-                  <p> {errors.englishWriting?.message} </p>
+                  <span className="form__errorspan">
+                    {" "}
+                    {errors.englishTest?.message}{" "}
+                  </span>
+                  <div className="form__two-inputs">
+                    <label className="form__label" htmlFor="speaking">
+                      Enter score for speaking:
+                      <input
+                        className="form__input-text"
+                        {...register("englishSpeaking")}
+                        type="number"
+                        name="englishSpeaking"
+                      />
+                    </label>
+                    <span className="form__error">
+                      {" "}
+                      {errors.englishSpeaking?.message}{" "}
+                    </span>
+                    <label className="form__label" htmlFor="listening">
+                      Enter score for listening:
+                      <input
+                        className="form__input-text"
+                        {...register("englishListening")}
+                        type="number"
+                        name="englishListening"
+                      />
+                    </label>
+                    <span className="form__error">
+                      {" "}
+                      {errors.englishListening?.message}{" "}
+                    </span>
+                  </div>
+                  <div className="form__two-inputs">
+                    <label className="form__label" htmlFor="reading">
+                      Enter score for reading:
+                      <input
+                        className="form__input-text"
+                        {...register("englishReading")}
+                        type="number"
+                        name="englishReading"
+                      />
+                    </label>
+                    <span className="form__error">
+                      {" "}
+                      {errors.englishReading?.message}{" "}
+                    </span>
+                    <label className="form__label" htmlFor="writing">
+                      Enter score for writing:
+                      <input
+                        className="form__input-text"
+                        {...register("englishWriting")}
+                        type="number"
+                        name="englishWriting"
+                      />
+                    </label>
+                    <span className="form__error">
+                      {" "}
+                      {errors.englishWriting?.message}{" "}
+                    </span>
+                  </div>
                 </>
               )}
             </>
@@ -566,9 +630,10 @@ function Questionnaire() {
           )} */}
           {formItem === 7 && (
             <>
-              <label htmlFor="province">
+              <label className="form__label" htmlFor="province">
                 Select a province or Territory:
                 <select
+                  className="form__input-text"
                   {...register("provinceOfPreference")}
                   name="provinceOfPreference"
                 >
@@ -599,19 +664,20 @@ function Questionnaire() {
                 </select>
               </label>
 
-              <label htmlFor="city">
+              <label className="form__label" htmlFor="city">
                 City of preference:
                 <input
+                  className="form__input-text"
                   {...register("cityOfPreference")}
                   type="text"
                   name="cityOfPreference"
                   placeholder="name a city or leave blank if no preference"
                 />
               </label>
-
-              <h2>Are you open to study in Canada?</h2>
-              <label htmlFor="study">
+              <label className="form__label" htmlFor="study">
+                Are you open to study in Canada?
                 <select
+                  className="form__input-text"
                   defaultValue={""}
                   {...register("studyInCanada")}
                   name="studyInCanada"
@@ -620,57 +686,93 @@ function Questionnaire() {
                   <option value="yes">yes</option>
                   <option value="no">No</option>
                 </select>
-                <p> {errors.studyInCanada?.message} </p>
+                <span className="form__error">
+                  {" "}
+                  {errors.studyInCanada?.message}{" "}
+                </span>
               </label>
             </>
           )}
           {formItem === 8 && (
             <>
-              <p>First Name: {watch("firstName")}</p>
-              <p>Last Name: {watch("lastName")}</p>
-              <p>Email: {watch("email")}</p>
-              <p>Phone Number: {watch("phoneNumber")}</p>
-              <p>Highest Education Level: {watch("educationLevel")}</p>
-              {workExp.map((job) => {
-                return (
-                  <div key={job}>
-                    <p>
-                      job exp: {watch(`job${job + 1}`)} Years of experience:
-                      {watch(`yearsOfExp${job + 1}`)}
-                    </p>
+              <div className="form__review">
+                <div className="form__two-inputs">
+                  <p className="form__review-line">
+                    <h4 className="form__review-title">First Name: </h4>
+                    {watch("firstName")}
+                  </p>
+                  <p className="form__review-line">
+                    <h4 className="form__review-title">Last Name:</h4> {watch("lastName")}
+                  </p>
+                </div>
+                <div className="form__two-inputs">
+                <p className="form__review-line">
+                  <h4 className="form__review-title">Email:</h4> {watch("email")}
+                </p>
+                <p className="form__review-line">
+                  <h4 className="form__review-title">Phone Number:</h4> {watch("phoneNumber")}
+                </p>
+                </div>
+                <p className="form__review-line"><h4 className="form__review-title">Education Level:</h4>  {watch("educationLevel")}</p>
+                {workExp.map((job) => {
+                  return (
+                   
+                      <div key={job} className="form__two-inputs">
+                      <p   className="form__review-line">
+                      <h4 className="form__review-title"> job exp:</h4>   {watch(`job${job + 1}`)}</p>
+                        <p className="form__review-line">
+                        <h4 className="form__review-title"> Years of experience:</h4> 
+                        {watch(`yearsOfExp${job + 1}`)}
+                      </p>
+                      </div>
+                    
+                  );
+                })}
+                {watch("canadaVisitor") && (
+                  <p  className="form__review-line">
+                  <h4 className="form__review-title">  Date visa expire or will expire:</h4>  {watch("canadaVisitor")}
+                  </p>
+                )}
+                {watch("canadaStudent") && (
+                  <p className="form__review-line">
+                  <h4 className="form__review-title"> Program studied in Canada: </h4>  {watch("canadaStudent")}
+                  </p>
+                )}
+                {watch("canadaWorker") && (
+                  <p>
+                    Job held in Canada: {watch("canadaWorker")} Years of
+                    Expirience: {watch("canadaYearsOfExpirience")}{" "}
+                  </p>
+                )}
+                {watch("englishTest") && (
+                  <>
+                  <p className="form__review-line">
+                  <h4 className="form__review-title"> Type of test taken:</h4>   {watch("englishTest")} 
+                  </p>
+                  <p className="form__review-line">
+                 <h4 className="form__review-title">Writing Score:</h4>{watch("englishWriting")} 
+                 <h4 className="form__review-title">Listening Score:</h4> {watch("englishListening")} 
+                 <h4 className="form__review-title">Reading Score:</h4>{watch("englishReading")} 
+                 <h4 className="form__review-title">Speaking Score:</h4> {watch("englishSpeaking")}
+                  </p>
+                  </>
+                  
+                )}
+                {watch("provinceOfPreference") && (
+                  <>
+                  <div className="form__two-inputs">
+                  <p className="form__review-line">
+                  <h4 className="form__review-title">Province of preference:</h4>   {watch("provinceOfPreference")}</p>
+                  <p className="form__review-line">
+                    <h4 className="form__review-title">City of preference:</h4> {watch("cityOfPreference")}{" "}</p> 
                   </div>
-                );
-              })}
-              {watch("canadaVisitor") && (
-                <p>Date visa expire or will expire: {watch("canadaVisitor")}</p>
-              )}
-              {watch("canadaStudent") && (
-                <p>Date visa expire or will expire: {watch("canadaStudent")}</p>
-              )}
-              {watch("canadaWorker") && (
-                <p>
-                  Job held in Canada: {watch("canadaWorker")} Years of
-                  Expirience: {watch("canadaYearsOfExpirience")}{" "}
-                </p>
-              )}
-              {watch("englishTest") && (
-                <p>
-                  Type of test taken: {watch("englishTest")} Writing Score:{" "}
-                  {watch("englishWriting")} Listening Score:{" "}
-                  {watch("englishListening")} Reading Score:{" "}
-                  {watch("englishReading")} Speaking Score:{" "}
-                  {watch("englishSpeaking")}
-                </p>
-              )}
-              {watch("provinceOfPreference") && (
-                <p>
-                  Province of preference: {watch("provinceOfPreference")} Years
-                  of City of preference: {watch("cityOfPreference")} Willing to
-                  study in Canada: {watch("studyInCanada")}
-                </p>
-              )}
-
-              <button>Submit</button>
+                  
+                  <p className="form__review-line">
+                    <h4 className="form__review-title">Willing to study in Canada:</h4> {watch("studyInCanada")}</p>  
+                  </>
+                )}
+              </div>
+              <button className="button">Submit</button>
             </>
           )}
         </form>
