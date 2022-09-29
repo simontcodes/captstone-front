@@ -294,7 +294,7 @@ function Clients() {
             <div className="warehouse__card-item warehouse__card-item--info">
               <h4 className="warehouse__card-title">Citizenship</h4>
               <p className="warehouse__card-info">birth citizenship</p>
-              <p className="warehouse__card-info">double citizenship?</p>
+              
             </div>
             <div className="warehouse__card-icons warehouse__card-item--icons">
               <img

@@ -59,116 +59,147 @@ function Client() {
         </Link>
       </div>
       <div className="warehouse-details__bottom">
-        <div className="warehouse-details__address">
-          <h4 className="warehouse-details__label">Email:</h4>
-          <p className="warehouse-details__content">
-            {clientInfo.email}
-            {/* {width >= 767
+        <div className="warehouse-details__box">
+          <div className="warehouse-details__box-title">
+            <h2 className="warehouse-details__box-title-text">Personal:</h2>
+          </div>
+          <div className="warehouse-details__address">
+            <h4 className="warehouse-details__label">Email:</h4>
+            <p className="warehouse-details__content">
+              {clientInfo.email}
+              {/* {width >= 767
               ? null
               : ` `} */}
-          </p>
-          {/* {width < 767 ? null : (
+            </p>
+            {/* {width < 767 ? null : (
             <p className="warehouse-details__content">
               {}, {}
             </p>
           )} */}
+          </div>
+          <div className="warehouse-details__address">
+            <h4 className="warehouse-details__label">Phone Number:</h4>
+            <p className="warehouse-details__content">
+              {clientInfo.phoneNumber}
+            </p>
+            <p className="warehouse-details__content">{}</p>
+          </div>
+          <div className="warehouse-details__address">
+            <h4 className="warehouse-details__label">Education Level:</h4>
+            <p className="warehouse-details__content">
+              {clientInfo.educationLevel}
+            </p>
+          </div>
         </div>
-        <div className="warehouse-details__contacts-left">
-          <h4 className="warehouse-details__label">Phone Number:</h4>
-          <p className="warehouse-details__content">{clientInfo.phoneNumber}</p>
-          <p className="warehouse-details__content">{}</p>
-        </div>
-        <div className="warehouse-details__contacts-right">
-          <h4 className="warehouse-details__label">Education Level:</h4>
-          <p className="warehouse-details__content">
-            {clientInfo.educationLevel}
-          </p>
-        </div>
-        <div className="warehouse-details__contacts-right">
-          <h4 className="warehouse-details__label">
-            Willing to study in Canada:
-          </h4>
-          <p className="warehouse-details__content">
-            {clientInfo.studyInCanada}
-          </p>
-        </div>
+
         {clientInfo.englishTest && (
           <>
             {" "}
-            <div className="warehouse-details__contacts-right">
-              <h4 className="warehouse-details__label">English Test:</h4>
-              <p className="warehouse-details__content">
-                {clientInfo.englishTest}
-              </p>
-            </div>
-            <div className="warehouse-details__contacts-right">
-              <h4 className="warehouse-details__label">Listening:</h4>
-              <p className="warehouse-details__content">
-                {clientInfo.englishListening}
-              </p>
-            </div>
-            <div className="warehouse-details__contacts-right">
-              <h4 className="warehouse-details__label">Speaking:</h4>
-              <p className="warehouse-details__content">
-                {clientInfo.englishSpeaking}
-              </p>
-            </div>
-            <div className="warehouse-details__contacts-right">
-              <h4 className="warehouse-details__label">Reading:</h4>
-              <p className="warehouse-details__content">
-                {clientInfo.englishReading}
-              </p>
-            </div>
-            <div className="warehouse-details__contacts-right">
-              <h4 className="warehouse-details__label">Writing:</h4>
-              <p className="warehouse-details__content">
-                {clientInfo.englishWriting}
-              </p>
+            <div className="warehouse-details__box">
+              <div className="warehouse-details__box-title">
+                <h2 className="warehouse-details__box-title-text">English:</h2>
+              </div>
+              <div className="warehouse-details__contacts-right">
+                <h4 className="warehouse-details__label">English Test:</h4>
+                <p className="warehouse-details__content">
+                  {clientInfo.englishTest}
+                </p>
+              </div>
+              <div className="warehouse-details__contacts-right">
+                <h4 className="warehouse-details__label">Listening:</h4>
+                <p className="warehouse-details__content">
+                  {clientInfo.englishListening}
+                </p>
+              </div>
+              <div className="warehouse-details__contacts-right">
+                <h4 className="warehouse-details__label">Speaking:</h4>
+                <p className="warehouse-details__content">
+                  {clientInfo.englishSpeaking}
+                </p>
+              </div>
+              <div className="warehouse-details__contacts-right">
+                <h4 className="warehouse-details__label">Reading:</h4>
+                <p className="warehouse-details__content">
+                  {clientInfo.englishReading}
+                </p>
+              </div>
+              <div className="warehouse-details__contacts-right">
+                <h4 className="warehouse-details__label">Writing:</h4>
+                <p className="warehouse-details__content">
+                  {clientInfo.englishWriting}
+                </p>
+              </div>
             </div>
           </>
         )}
-        <div className="warehouse-details__contacts-right">
-          <h4 className="warehouse-details__label">Province Of Preference:</h4>
-          <p className="warehouse-details__content">
-            {clientInfo.provinceOfPreference}
-          </p>
-        </div>
-        <div className="warehouse-details__contacts-right">
-          <h4 className="warehouse-details__label">City Of Preference:</h4>
-          <p className="warehouse-details__content">
-            {clientInfo.cityOfPreference}
-          </p>
-        </div>
-        {clientInfo.canadaVisitor && (
+        <div className="warehouse-details__box">
+          <div className="warehouse-details__box-title">
+            <h2 className="warehouse-details__box-title-text">Preference:</h2>
+          </div>
           <div className="warehouse-details__contacts-right">
             <h4 className="warehouse-details__label">
-              Canada visa expiry date:
+              Province Of Preference:
             </h4>
             <p className="warehouse-details__content">
-              {clientInfo.canadaVisitor.slice(0, 10)}
+              {clientInfo.provinceOfPreference}
             </p>
           </div>
-        )}
-        {clientInfo.canadaWorker && (
           <div className="warehouse-details__contacts-right">
-            <h4 className="warehouse-details__label">Work in Canada as:</h4>
+            <h4 className="warehouse-details__label">
+              Willing to study in Canada:
+            </h4>
             <p className="warehouse-details__content">
-              {clientInfo.canadaWorker}
-            </p>
-            <p className="warehouse-details__content">
-              for {clientInfo.canadaWorker} years
+              {clientInfo.studyInCanada}
             </p>
           </div>
-        )}
-        {clientInfo.canadaStudent && (
           <div className="warehouse-details__contacts-right">
-            <h4 className="warehouse-details__label">Studied in Canada:</h4>
+            <h4 className="warehouse-details__label">City Of Preference:</h4>
             <p className="warehouse-details__content">
-              {clientInfo.canadaStudent}
+              {clientInfo.cityOfPreference}
             </p>
           </div>
-        )}
+        </div>
+        
+        {(clientInfo.canadaVisitor || clientInfo.canadaStudent || clientInfo.canadaWorker) &&
+        (<div className="warehouse-details__box">
+        <div className="warehouse-details__box-title">
+            <h2 className="warehouse-details__box-title-text">Canada:</h2>
+          </div>
+        {clientInfo.canadaVisitor && (
+            <div className="warehouse-details__contacts-right">
+              <h4 className="warehouse-details__label">
+                Canada visa expiry date:
+              </h4>
+              <p className="warehouse-details__content">
+                {clientInfo.canadaVisitor.slice(0, 10)}
+              </p>
+            </div>
+          )}
+          {clientInfo.canadaWorker && (
+            <div className="warehouse-details__contacts-right">
+              <h4 className="warehouse-details__label">Work in Canada as:</h4>
+              <p className="warehouse-details__content">
+                {clientInfo.canadaWorker}
+              </p>
+              <p className="warehouse-details__content">
+                for {clientInfo.canadaWorker} years
+              </p>
+            </div>
+          )}
+          {clientInfo.canadaStudent && (
+            <div className="warehouse-details__contacts-right">
+              <h4 className="warehouse-details__label">Studied in Canada:</h4>
+              <p className="warehouse-details__content">
+                {clientInfo.canadaStudent}
+              </p>
+            </div>
+          )}
+         
 
+        </div>
+         )}
+        <div className="warehouse-details__box">
+       
         <div className="warehouse-details__contacts-right">
           <h4 className="warehouse-details__label">
             Work Experience Outside Canada:
@@ -180,6 +211,7 @@ function Client() {
               </p>
             );
           })}
+        </div>
         </div>
         <div className="warehouse-details__contacts-right">
           <h4 className="warehouse-details__label">Appointment with us:</h4>
