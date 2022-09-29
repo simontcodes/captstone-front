@@ -8,14 +8,14 @@ function Success() {
   return (
     <>
 
-      <div className="modal">
-        <div className="modal__popup">
+      <div className="modal-payment">
+        <div className="modal-payment__popup">
           
-            <div className="modal__photo">
+            <div className="modal-payment__photo">
             </div>
-            <div className="modal__text">
-              <h1>Your Appointment has been schedule!</h1>
-              <p>Please fill out the form to help us provide a better service for you  </p>
+            <div className="modal-payment__text">
+              <h1>Your payment has been received!</h1>
+              <p>Please fill out the next form to gather information for your appointment.  </p>
             <button onClick={handleGoForm} className="button"> Go to Form</button>
        
             </div>

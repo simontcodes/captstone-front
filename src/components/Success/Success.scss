@@ -1,5 +1,5 @@
 
-.modal {
+.modal-payment {
     position: fixed;
     left: 0;
     top: 0;
@@ -20,7 +20,7 @@
       }
   
       &__photo {
-          background-image: (url(../../assets/images/booking-completed.jpg));
+          background-image: (url(../../assets/images/payment-completed.jpg));
           background-position: center;
           background-repeat: no-repeat;
           background-size: cover;
