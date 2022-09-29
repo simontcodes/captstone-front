@@ -74,8 +74,8 @@ function App() {
         <Header isLoggedIn={isLoggedIn} handleLogout={handleLogout} />
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="about-us" element={<AboutPage />} />
-          <Route path="contact-us" element={<ContactPage />} />
+          {/* <Route path="about-us" element={<AboutPage />} />
+          <Route path="contact-us" element={<ContactPage />} /> */}
           <Route path="questionnaire" element={<QuestionnairePage />} />
           <Route path="booking" element={<BookingPage />} />
           <Route path="comingsoon" element={<ComingSoon />} />
@@ -97,9 +97,9 @@ function App() {
             element={<ClientDetailsPage />}
           />
           <Route path="appointments" element={<AppointmentsPage />} />
-          <Route path="success" element={<SucessPage />} />
+          {/* <Route path="success" element={<SucessPage />} /> */}
         </Routes>
-        <Footer />
+    
       </BrowserRouter>
     </div>
   );

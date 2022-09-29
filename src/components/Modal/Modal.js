@@ -1,5 +1,5 @@
 import "./Modal.scss";
-import ModalPhoto from "../../assets/images/booking-completed.jpg";
+
 
 function Modal() {
     function handleGoHome () {

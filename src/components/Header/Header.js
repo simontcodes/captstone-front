@@ -19,14 +19,14 @@ function Header({ isLoggedIn, handleLogout }) {
               </NavLink>
             </li>
             <li>
-              <NavLink className="nav__link" to="about-us">
+              <a className="nav__link" href="#about">
                 About
-              </NavLink>
+              </a>
             </li>
             <li>
-              <NavLink className="nav__link" to="contact-us">
+              <a className="nav__link" href="#contact">
                 Contact
-              </NavLink>
+              </a>
             </li>
             {!isLoggedIn && (
               <li>

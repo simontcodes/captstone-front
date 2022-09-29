@@ -1,0 +1,72 @@
+@use "../../styles/partials/variables" as*;
+
+
+.contact {
+    height: 50vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: $page-background;
+
+    &__container-left {
+        background-color: $page-background;
+        border-radius: 10px;
+        color: black;
+        
+        width: 40%;
+        height: 80%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-right: 2rem;
+    }
+
+    &__container-right {
+        width: 30%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        padding-top: 4rem;
+    }
+
+    &__text {
+        padding-right: 4rem;
+        color: $cta-hover;
+
+    }
+
+    &__title {
+        font-size: 1rem;
+        color: $cta-hover;
+    }
+
+    &__map {
+        width: 80%;
+        height: 80%;
+        border-radius: 10px;
+        border: none;
+        margin-bottom: 1rem;
+        box-shadow: 0 0 10px black;
+    }
+
+    &__icons {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    
+    }
+
+    &__icon {
+        display: flex;
+       width: 20%;
+       
+        &-img {
+            width: 40%;
+        }
+    }
+}
+
+

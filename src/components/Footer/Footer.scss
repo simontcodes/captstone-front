@@ -1,0 +1,26 @@
+@use "../../styles/partials/variables" as *;
+
+.footer {
+    
+    height: 30vh;
+    background-color: $page-background;
+    display: flex;
+    justify-content: flex-end;
+
+
+    &__icons {
+    width: 30%; 
+    display: flex;
+    justify-content: center;
+    }
+
+    &__icon {
+        margin: 1rem;
+
+        &-img {
+            width: 2rem;
+        }
+    }
+
+
+}
