@@ -97,9 +97,8 @@ function App() {
             element={<ClientDetailsPage />}
           />
           <Route path="appointments" element={<AppointmentsPage />} />
-          {/* <Route path="success" element={<SucessPage />} /> */}
+          <Route path="success" element={<SucessPage />} />
         </Routes>
-    
       </BrowserRouter>
     </div>
   );
