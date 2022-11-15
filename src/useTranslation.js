@@ -1,5 +1,5 @@
 import useLocalStorage from "use-local-storage";
-import * as translations from "./translations";
+import * as translations from "../src/components/useTranslation/translations";
 
 export default function useTranslation() {
   const [language, setLanguage] = useLocalStorage("language", "en");

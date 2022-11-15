@@ -15,11 +15,13 @@ import SucessPage from "./pages/SuccessPage";
 import ComingSoon from "./components/ComingSoon";
 import ClientDetailsPage from "./pages/ClientDetailsPage";
 import AppointmentsPage from "./pages/AppointmentsPage";
+import useTranslation from "./useTranslation";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoginError, setIsLoginError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const { language, setLanguage, setFallbackLanguage, t } = useTranslation();
 
   const URLlogin = "http://localhost:8080/login";
   const URLprofile = "http://localhost:8080/clients";
@@ -71,9 +73,14 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <Header isLoggedIn={isLoggedIn} handleLogout={handleLogout} />
+        <Header
+          isLoggedIn={isLoggedIn}
+          handleLogout={handleLogout}
+          setLanguage={setLanguage}
+          t={t}
+        />
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          <Route path="/" element={<HomePage t={t} />} />
           {/* <Route path="about-us" element={<AboutPage />} />
           <Route path="contact-us" element={<ContactPage />} /> */}
           <Route path="questionnaire" element={<QuestionnairePage />} />
