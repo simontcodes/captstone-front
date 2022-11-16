@@ -3,6 +3,7 @@ import Logo from "../../assets/logo/cmLogo.png";
 import { NavLink } from "react-router-dom";
 import englishIcon from "../../assets/icons/english.png";
 import russianIcon from "../../assets/icons/russian.png";
+import spanishIcon from "../../assets/icons/spanish.png";
 
 function Header({ isLoggedIn, handleLogout, setLanguage, t }) {
   return (
@@ -70,7 +71,7 @@ function Header({ isLoggedIn, handleLogout, setLanguage, t }) {
                   setLanguage("sp");
                 }}
               >
-                <img src={russianIcon} alt="Russian Language Icon" />
+                <img src={spanishIcon} alt="Russian Language Icon" />
               </button>
               <button
                 className="nav__language"
