@@ -2,10 +2,14 @@ import "./Booking.scss";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+
 import axios from "axios";
 import setHours from "date-fns/setHours";
 import setMinutes from "date-fns/setMinutes";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import "yup-phone";
 
 const PaymentUrl = "http://localhost:8080/payment";
 
@@ -18,18 +22,31 @@ function Booking({ handleBooking }) {
   const [errorMessage, setErrorMessage] = useState("");
   //error message from the backend
   const [backendError, setBackendError] = useState("");
-  //react hook form
+
+  // ----------------Yup validation------------------------
+  const schema = yup.object().shape({
+    firstName: yup.string().required(),
+    lastName: yup.string().required(),
+    email: yup.string().email().required(),
+    phoneNumber: yup.string().phone().required(),
+  });
+  // --------------------------------------------------------
+  //------------react hook form-----------------------------
+
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm();
-  // ------------------------------
+  } = useForm({
+    resolver: yupResolver(schema),
+    mode: "onTouched",
+  });
+
   const [startDate, setStartDate] = useState(
     setHours(setMinutes(new Date(), 30), 16)
   );
-  // -------------------------------
+  // -----------------------------------------------
 
   const onSubmit = (data) => {
     console.log(data);
@@ -44,6 +61,10 @@ function Booking({ handleBooking }) {
     //saving data to be uses to post when questionnaire is filled
     sessionStorage.setItem("dateAndTime", selectedDate);
     sessionStorage.setItem("typeOfService", watch("service"));
+    sessionStorage.setItem("firstName", watch("firstName"));
+    sessionStorage.setItem("lastName", watch("lastName"));
+    sessionStorage.setItem("email", watch("email"));
+    sessionStorage.setItem("phoneNumber", watch("phoneNumber"));
 
     axios
       .post(PaymentUrl, {
@@ -66,6 +87,57 @@ function Booking({ handleBooking }) {
     <>
       <h1 className="booking__title">Start your booking</h1>
       <div className="booking">
+        <div className="form__two-inputs">
+          <label className="form__label form__full-name" htmlFor="firstName">
+            First Name
+            <input
+              type="text"
+              name="firstName"
+              className="form__first-name form__input-text"
+              placeholder="First Name"
+              {...register("firstName")}
+            />
+            <span className="form__error"> {errors.firstName?.message} </span>
+          </label>
+
+          <label className="form__label form__full-name" htmlFor="last-name">
+            Last Name
+            <input
+              type="text"
+              name="lastName"
+              className="form__last-name form__input-text"
+              placeholder="Last Name"
+              {...register("lastName")}
+            />
+            <span className="form__error"> {errors.lastName?.message} </span>
+          </label>
+        </div>
+        <div className="form__two-inputs">
+          <label className="form__label" htmlFor="email">
+            Email
+            <input
+              type="email"
+              name="email"
+              className="form__email form__input-text"
+              placeholder="Email"
+              {...register("email")}
+            />
+            <span className="form__error"> {errors.email?.message} </span>
+          </label>
+
+          <label className="form__label" htmlFor="phone-number">
+            Phone Number
+            <input
+              type="tel"
+              name="phoneNumber"
+              className="form__phone form__input-text"
+              placeholder="Phone Number"
+              {...register("phoneNumber")}
+            />
+            <span className="form__error"> {errors.phoneNumber?.message} </span>
+          </label>
+        </div>
+
         <div className="booking__form-container">
           <h2>Select type of service</h2>
           <form className="booking__form" onSubmit={handleSubmit(onSubmit)}>
@@ -136,14 +208,19 @@ function Booking({ handleBooking }) {
             <h2 className="booking__confirm-title">
               Confirm date, time and type of service:
             </h2>
-            <h3>service is: {watch("service") == 1
-                  ? "30 Min Consultation"
-                  : watch("service") == 2
-                  ? "1 Hour Consultation"
-                  : watch("service") == 3
-                  ? "Option Program Consultation"
-                  : null}</h3>
-            <h3>Date and time of Appointment: {`${selectedDate}`.slice(0, 21)}</h3>
+            <h3>
+              service is:{" "}
+              {watch("service") == 1
+                ? "30 Min Consultation"
+                : watch("service") == 2
+                ? "1 Hour Consultation"
+                : watch("service") == 3
+                ? "Option Program Consultation"
+                : null}
+            </h3>
+            <h3>
+              Date and time of Appointment: {`${selectedDate}`.slice(0, 21)}
+            </h3>
           </div>
           <div className="booking__payment">
             <button className="booking__payment-button" onClick={handlePayment}>
