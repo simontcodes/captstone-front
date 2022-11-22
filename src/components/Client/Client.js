@@ -19,9 +19,10 @@ function Client() {
   useEffect(() => {
     // Here grab the token from sessionStorage and then make an axios request to profileUrl endpoint.
     axios
-      .get(`http://localhost:8080/clients/client/${clientId}`, {
+      .get(`http://localhost:8080/client/${clientId}`, {
         headers: {
           authorization: `Bearer ${localStorage.getItem("JWTtoken")}`,
+          email: localStorage.getItem("email"),
         },
       })
       .then((response) => {
@@ -159,59 +160,58 @@ function Client() {
             </p>
           </div>
         </div>
-        
-        {(clientInfo.canadaVisitor || clientInfo.canadaStudent || clientInfo.canadaWorker) &&
-        (<div className="warehouse-details__box">
-        <div className="warehouse-details__box-title">
-            <h2 className="warehouse-details__box-title-text">Canada:</h2>
-          </div>
-        {clientInfo.canadaVisitor && (
-            <div className="warehouse-details__contacts-right">
-              <h4 className="warehouse-details__label">
-                Canada visa expiry date:
-              </h4>
-              <p className="warehouse-details__content">
-                {clientInfo.canadaVisitor.slice(0, 10)}
-              </p>
-            </div>
-          )}
-          {clientInfo.canadaWorker && (
-            <div className="warehouse-details__contacts-right">
-              <h4 className="warehouse-details__label">Work in Canada as:</h4>
-              <p className="warehouse-details__content">
-                {clientInfo.canadaWorker}
-              </p>
-              <p className="warehouse-details__content">
-                for {clientInfo.canadaWorker} years
-              </p>
-            </div>
-          )}
-          {clientInfo.canadaStudent && (
-            <div className="warehouse-details__contacts-right">
-              <h4 className="warehouse-details__label">Studied in Canada:</h4>
-              <p className="warehouse-details__content">
-                {clientInfo.canadaStudent}
-              </p>
-            </div>
-          )}
-         
 
-        </div>
-         )}
+        {(clientInfo.canadaVisitor ||
+          clientInfo.canadaStudent ||
+          clientInfo.canadaWorker) && (
+          <div className="warehouse-details__box">
+            <div className="warehouse-details__box-title">
+              <h2 className="warehouse-details__box-title-text">Canada:</h2>
+            </div>
+            {clientInfo.canadaVisitor && (
+              <div className="warehouse-details__contacts-right">
+                <h4 className="warehouse-details__label">
+                  Canada visa expiry date:
+                </h4>
+                <p className="warehouse-details__content">
+                  {clientInfo.canadaVisitor.slice(0, 10)}
+                </p>
+              </div>
+            )}
+            {clientInfo.canadaWorker && (
+              <div className="warehouse-details__contacts-right">
+                <h4 className="warehouse-details__label">Work in Canada as:</h4>
+                <p className="warehouse-details__content">
+                  {clientInfo.canadaWorker}
+                </p>
+                <p className="warehouse-details__content">
+                  for {clientInfo.canadaWorker} years
+                </p>
+              </div>
+            )}
+            {clientInfo.canadaStudent && (
+              <div className="warehouse-details__contacts-right">
+                <h4 className="warehouse-details__label">Studied in Canada:</h4>
+                <p className="warehouse-details__content">
+                  {clientInfo.canadaStudent}
+                </p>
+              </div>
+            )}
+          </div>
+        )}
         <div className="warehouse-details__box">
-       
-        <div className="warehouse-details__contacts-right">
-          <h4 className="warehouse-details__label">
-            Work Experience Outside Canada:
-          </h4>
-          {clientWorkExp.map((client) => {
-            return (
-              <p className="warehouse-details__content">
-                As: {client.jobTitle} For:{client.yearsOfExperience} Years
-              </p>
-            );
-          })}
-        </div>
+          <div className="warehouse-details__contacts-right">
+            <h4 className="warehouse-details__label">
+              Work Experience Outside Canada:
+            </h4>
+            {clientWorkExp.map((client) => {
+              return (
+                <p className="warehouse-details__content">
+                  As: {client.jobTitle} For:{client.yearsOfExperience} Years
+                </p>
+              );
+            })}
+          </div>
         </div>
         <div className="warehouse-details__contacts-right">
           <h4 className="warehouse-details__label">Appointment with us:</h4>

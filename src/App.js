@@ -33,13 +33,14 @@ function App() {
       .get(URLprofile, {
         headers: {
           authorization: `Bearer ${localStorage.getItem("JWTtoken")}`,
+          email: localStorage.getItem("email"),
         },
       })
       .then((response) => {
         setIsLoggedIn(true);
       })
       .catch((error) => {
-        // console.log(error);
+        console.log(error);
       });
   }, []);
   //--------------
@@ -69,6 +70,7 @@ function App() {
   const handleLogout = (event) => {
     setIsLoggedIn(false);
     localStorage.removeItem("JWTtoken");
+    localStorage.removeItem("email");
     window.location.href = "http://localhost:3000";
   };
   return (
