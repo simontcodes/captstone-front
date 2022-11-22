@@ -11,9 +11,8 @@ import { useForm } from "react-hook-form";
 function Clients() {
   const [clientInfo, setClientInfo] = useState(null);
   const [axiosError, setAxiosError] = useState("");
-   // state to reload component after delete
-   const [reload, setReload] = useState(1);
-  
+  // state to reload component after delete
+  const [reload, setReload] = useState(1);
 
   const baseUrl = "http://localhost:8080";
   const profileUrl = `${baseUrl}/clients`;
@@ -24,7 +23,6 @@ function Clients() {
     watch,
     formState: { errors },
   } = useForm();
-
 
   function handleKeyPress() {
     const filteredClient = clientInfo.filter((client) =>
@@ -57,13 +55,14 @@ function Clients() {
     event.preventDefault();
   }
 
-
   useEffect(() => {
     // Here grab the token from sessionStorage and then make an axios request to profileUrl endpoint.
+
     axios
       .get(profileUrl, {
         headers: {
           authorization: `Bearer ${localStorage.getItem("JWTtoken")}`,
+          email: localStorage.getItem("email"),
         },
       })
       .then((response) => {
@@ -80,7 +79,7 @@ function Clients() {
   // --------------------trying to sort--------------------
   // state to conditionally open the modal
   const [isOpen, setIsOpen] = useState(false);
- 
+
   const [sorted, setSorted] = useState(false);
 
   function upOrDown() {
@@ -188,9 +187,12 @@ function Clients() {
       <header className="warehouse__header">
         <h1 className="warehouse__title">Clients</h1>
         <div className="warehouse__header-formbtn">
-          <form className="warehouse__form" onSubmit={(event) => {
-                event.preventDefault();
-              }}>
+          <form
+            className="warehouse__form"
+            onSubmit={(event) => {
+              event.preventDefault();
+            }}
+          >
             <input
               onKeyDownCapture={handleKeyPress}
               name="searchBar"
@@ -294,7 +296,6 @@ function Clients() {
             <div className="warehouse__card-item warehouse__card-item--info">
               <h4 className="warehouse__card-title">Citizenship</h4>
               <p className="warehouse__card-info">birth citizenship</p>
-              
             </div>
             <div className="warehouse__card-icons warehouse__card-item--icons">
               <img

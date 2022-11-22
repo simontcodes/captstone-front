@@ -53,6 +53,7 @@ function App() {
       .then((response) => {
         console.log(response.data);
         localStorage.setItem("JWTtoken", response.data.token);
+        localStorage.setItem("email", response.data.email);
 
         setIsLoggedIn(true);
         setIsLoginError(false);
