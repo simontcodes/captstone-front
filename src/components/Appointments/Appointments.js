@@ -124,6 +124,7 @@ function Appointments() {
       .get(appointmentsURL, {
         headers: {
           authorization: `Bearer ${localStorage.getItem("JWTtoken")}`,
+          email: localStorage.getItem("email"),
         },
       })
       .then((response) => {

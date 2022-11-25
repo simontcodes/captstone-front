@@ -19,6 +19,7 @@ import useTranslation from "./useTranslation";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [isLoginError, setIsLoginError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const { language, setLanguage, setFallbackLanguage, t } = useTranslation();
@@ -55,6 +56,11 @@ function App() {
         console.log(response.data);
         localStorage.setItem("JWTtoken", response.data.token);
         localStorage.setItem("email", response.data.email);
+        localStorage.setItem("id", response.data.id);
+
+        if (response.data.isAdmin === 1) {
+          setIsAdmin(true);
+        }
 
         setIsLoggedIn(true);
         setIsLoginError(false);
@@ -71,12 +77,15 @@ function App() {
     setIsLoggedIn(false);
     localStorage.removeItem("JWTtoken");
     localStorage.removeItem("email");
+    localStorage.removeItem("id");
+
     window.location.href = "http://localhost:3000";
   };
   return (
     <div className="App">
       <BrowserRouter>
         <Header
+          isAdmin={isAdmin}
           isLoggedIn={isLoggedIn}
           handleLogout={handleLogout}
           setLanguage={setLanguage}
@@ -93,6 +102,7 @@ function App() {
             path="login"
             element={
               <LoginPage
+                isAdmin={isAdmin}
                 errorMessage={errorMessage}
                 isLoggedIn={isLoggedIn}
                 isLoginError={isLoginError}

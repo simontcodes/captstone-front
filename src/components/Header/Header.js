@@ -5,7 +5,7 @@ import englishIcon from "../../assets/icons/english.png";
 import russianIcon from "../../assets/icons/russian.png";
 import spanishIcon from "../../assets/icons/spanish.png";
 
-function Header({ isLoggedIn, handleLogout, setLanguage, t }) {
+function Header({ isAdmin, isLoggedIn, handleLogout, setLanguage, t }) {
   return (
     <header className="header">
       <div className="header__container">
@@ -38,7 +38,7 @@ function Header({ isLoggedIn, handleLogout, setLanguage, t }) {
                 </NavLink>
               </li>
             )}
-            {isLoggedIn && (
+            {isLoggedIn && isAdmin && (
               <li>
                 {" "}
                 <NavLink className="nav__link" to="clients">
@@ -46,11 +46,23 @@ function Header({ isLoggedIn, handleLogout, setLanguage, t }) {
                 </NavLink>
               </li>
             )}
-            {isLoggedIn && (
+            {isLoggedIn && isAdmin && (
               <li>
                 {" "}
                 <NavLink className="nav__link" to="appointments">
                   {t("Appointments")}
+                </NavLink>
+              </li>
+            )}
+            {isLoggedIn && !isAdmin && (
+              <li>
+                {" "}
+                <NavLink
+                  className="nav__link"
+                  to={`clients/client/${localStorage.getItem("id")}`}
+                >
+                  {" "}
+                  {t("Profile")}{" "}
                 </NavLink>
               </li>
             )}
@@ -63,11 +75,11 @@ function Header({ isLoggedIn, handleLogout, setLanguage, t }) {
                 </NavLink>
               </li>
             )}
+
             <li>
               <button
                 className="nav__language"
                 onClick={() => {
-                  console.log("this is clicking");
                   setLanguage("sp");
                 }}
               >

@@ -3,12 +3,22 @@ import { useNavigate } from "react-router-dom";
 
 //use this function to redirect from other pages
 
-function LogInPage({ handleLogin, isLoggedIn, isLoginError, errorMessage }) {
+function LogInPage({
+  isAdmin,
+  handleLogin,
+  isLoggedIn,
+  isLoginError,
+  errorMessage,
+}) {
   const navigate = useNavigate();
 
-  if (isLoggedIn) {
+  if (isLoggedIn && isAdmin) {
     setTimeout(() => {
       navigate("/clients");
+    }, 1000);
+  } else if (isLoggedIn && !isAdmin) {
+    setTimeout(() => {
+      navigate(`/clients/client/${localStorage.getItem("id")}`);
     }, 1000);
   }
 
