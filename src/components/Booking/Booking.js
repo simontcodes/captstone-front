@@ -71,6 +71,7 @@ function Booking({ handleBooking }) {
         items: JSON.stringify([
           { id: parseInt(watch("service")), quantity: 1 },
         ]),
+        email: watch("email"),
       })
       .then((response) => {
         console.log(response);
@@ -79,7 +80,7 @@ function Booking({ handleBooking }) {
       })
       .catch((error) => {
         console.log(error);
-        setBackendError(error.message);
+        setBackendError(error.response.data.message);
       });
   }
 

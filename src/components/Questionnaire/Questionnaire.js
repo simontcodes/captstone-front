@@ -10,14 +10,14 @@ import "yup-phone";
 import axios from "axios";
 import Modal from "../../components/Modal/Modal";
 
-const URLPostForm = "http://localhost:8080/clientsPost";
+const URLPostForm = "http://localhost:8080/questionnaire";
 
 //YUP schema to list out every type of validation
 const schema = yup.object().shape({
-  firstName: yup.string().required(),
-  lastName: yup.string().required(),
-  email: yup.string().email().required(),
-  phoneNumber: yup.string().phone().required(),
+  // firstName: yup.string().required(),
+  // lastName: yup.string().required(),
+  // email: yup.string().email().required(),
+  // phoneNumber: yup.string().phone().required(),
   educationLevel: yup.string().required(),
   englishSpeaking: yup
     .number()
@@ -73,9 +73,9 @@ function Questionnaire() {
   });
 
   //getting appointment info from session storage to be pass in the post request
-  let dateAndTime = sessionStorage.getItem("dateAndTime").slice(0, 24);
-  let dateOfAppointment = dateAndTime.substring(0, 15);
-  let timeOfAppointment = dateAndTime.substring(16);
+  // let dateAndTime = sessionStorage.getItem("dateAndTime").slice(0, 24);
+  // let dateOfAppointment = dateAndTime.substring(0, 15);
+  // let timeOfAppointment = dateAndTime.substring(16);
 
   //function passed to handleSubmit
   const submitForm = (data) => {
@@ -92,10 +92,11 @@ function Questionnaire() {
 
     axios
       .post(URLPostForm, {
-        firstName: data.firstName,
-        lastName: data.lastName,
-        email: data.email,
-        phoneNumber: data.phoneNumber,
+        // firstName: data.firstName,
+        // lastName: data.lastName,
+        // email: data.email,
+        // phoneNumber: data.phoneNumber,
+        id: localStorage.getItem("id"),
         educationLevel: data.educationLevel,
         canadaVisitor: data.canadaVisitor,
         canadaStudent: data.canadaStudent,
@@ -110,9 +111,9 @@ function Questionnaire() {
         provinceOfPreference: data.provinceOfPreference,
         cityOfPreference: data.cityOfPreference,
         jobs: JSON.stringify(workExpArray),
-        typeOfService: sessionStorage.getItem("typeOfService"),
-        dateOfAppointment: dateOfAppointment,
-        timeOfAppointment: timeOfAppointment,
+        // typeOfService: sessionStorage.getItem("typeOfService"),
+        // dateOfAppointment: dateOfAppointment,
+        // timeOfAppointment: timeOfAppointment,
       })
       .then((response) => {
         console.log(response);
@@ -126,7 +127,7 @@ function Questionnaire() {
 
   //logic to show pieces of the form
   function nextQuestion() {
-    if (formItem === 8) {
+    if (formItem === 7) {
       return;
     }
     setFormItem(formItem + 1);
@@ -185,7 +186,7 @@ function Questionnaire() {
   }
 
   const formTitles = [
-    "Please Fill out the form:",
+    // "Please Fill out the form:",
     "What is your level of education:",
     "Work experience in the last 10 years:",
     "Have you been In Canada before?",
@@ -207,7 +208,7 @@ function Questionnaire() {
             action="submit"
             className="form"
           >
-            {formItem === 1 && (
+            {/* {formItem === 1 && (
               <>
                 <div className="form__two-inputs">
                   <label
@@ -274,8 +275,8 @@ function Questionnaire() {
                   </span>
                 </label>
               </>
-            )}
-            {formItem === 2 && (
+            )} */}
+            {formItem === 1 && (
               <>
                 <select
                   className="form__input-text form__education"
@@ -340,7 +341,7 @@ function Questionnaire() {
                 </span>
               </>
             )}
-            {formItem === 3 && (
+            {formItem === 2 && (
               <>
                 <div className="form__work-exp">
                   {workExp.map((jobExp) => {
@@ -378,7 +379,7 @@ function Questionnaire() {
                 </div>
               </>
             )}
-            {formItem === 4 && (
+            {formItem === 3 && (
               <>
                 {!beenCanada && (
                   <div className="form__button">
@@ -520,7 +521,7 @@ function Questionnaire() {
                 )}
               </>
             )}
-            {formItem === 5 && (
+            {formItem === 4 && (
               <>
                 <div className="form__button">
                   <button
@@ -616,28 +617,26 @@ function Questionnaire() {
                 )}
               </>
             )}
-            {/* {formItem === 6 && (
-            <>
-              <h2>Are you married or in common law?</h2>
-              <button
-                onClick={(event) => {
-                  handleIsMarried(event);
-                }}
-              >
-                Yes
-              </button>
-              <button
-                onClick={(event) => {
-                  handleNextQuestion(event);
-                }}
-              >
-                No
-              </button>
-
-              
-            </>
-          )} */}
-            {formItem === 7 && (
+            {formItem === 5 && (
+              <>
+                <h2>Are you married or in common law?</h2>
+                <button
+                  onClick={(event) => {
+                    handleIsMarried(event);
+                  }}
+                >
+                  Yes
+                </button>
+                <button
+                  onClick={(event) => {
+                    handleNextQuestion(event);
+                  }}
+                >
+                  No
+                </button>
+              </>
+            )}
+            {formItem === 6 && (
               <>
                 <label className="form__label" htmlFor="province">
                   Select a province or Territory:
@@ -702,10 +701,10 @@ function Questionnaire() {
                 </label>
               </>
             )}
-            {formItem === 8 && (
+            {formItem === 7 && (
               <>
                 <div className="form__review">
-                  <div className="form__two-inputs">
+                  {/* <div className="form__two-inputs">
                     <p className="form__review-line">
                       <h4 className="form__review-title">First Name: </h4>
                       {watch("firstName")}
@@ -724,7 +723,7 @@ function Questionnaire() {
                       <h4 className="form__review-title">Phone Number:</h4>{" "}
                       {watch("phoneNumber")}
                     </p>
-                  </div>
+                  </div> */}
                   <p className="form__review-line">
                     <h4 className="form__review-title">Education Level:</h4>{" "}
                     {watch("educationLevel")}
@@ -835,7 +834,7 @@ function Questionnaire() {
               alt=""
             />
           )}
-          {formItem !== 8 && (
+          {formItem !== 7 && (
             <img
               className="form__arrows"
               onClick={nextQuestion}
@@ -845,7 +844,7 @@ function Questionnaire() {
           )}
         </div>
         <div className="progress">
-          <div
+          {/* <div
             onClick={() => {
               setFormItem(1);
             }}
@@ -854,7 +853,17 @@ function Questionnaire() {
             <span className="label">1</span>
             <span className="title">Personal</span>
           </div>
-          <span className="bar done"></span>
+          <span className="bar done"></span> */}
+          <div
+            onClick={() => {
+              setFormItem(1);
+            }}
+            className={`circle ${formItem >= 1 ? "done" : ""}`}
+          >
+            <span className="label">1</span>
+            <span className="title">Education</span>
+          </div>
+          <span className="bar half"></span>
           <div
             onClick={() => {
               setFormItem(2);
@@ -862,9 +871,9 @@ function Questionnaire() {
             className={`circle ${formItem >= 2 ? "done" : ""}`}
           >
             <span className="label">2</span>
-            <span className="title">Education</span>
+            <span className="title">Work</span>
           </div>
-          <span className="bar half"></span>
+          <span className="bar"></span>
           <div
             onClick={() => {
               setFormItem(3);
@@ -872,7 +881,7 @@ function Questionnaire() {
             className={`circle ${formItem >= 3 ? "done" : ""}`}
           >
             <span className="label">3</span>
-            <span className="title">Work</span>
+            <span className="title">Canada</span>
           </div>
           <span className="bar"></span>
           <div
@@ -882,7 +891,7 @@ function Questionnaire() {
             className={`circle ${formItem >= 4 ? "done" : ""}`}
           >
             <span className="label">4</span>
-            <span className="title">Canada</span>
+            <span className="title">English</span>
           </div>
           <span className="bar"></span>
           <div
@@ -892,7 +901,7 @@ function Questionnaire() {
             className={`circle ${formItem >= 5 ? "done" : ""}`}
           >
             <span className="label">5</span>
-            <span className="title">English</span>
+            <span className="title">Partner</span>
           </div>
           <span className="bar"></span>
           <div
@@ -902,7 +911,7 @@ function Questionnaire() {
             className={`circle ${formItem >= 6 ? "done" : ""}`}
           >
             <span className="label">6</span>
-            <span className="title">Partner</span>
+            <span className="title">Preference</span>
           </div>
           <span className="bar"></span>
           <div
@@ -912,16 +921,6 @@ function Questionnaire() {
             className={`circle ${formItem >= 7 ? "done" : ""}`}
           >
             <span className="label">7</span>
-            <span className="title">Preference</span>
-          </div>
-          <span className="bar"></span>
-          <div
-            onClick={() => {
-              setFormItem(8);
-            }}
-            className={`circle ${formItem >= 8 ? "done" : ""}`}
-          >
-            <span className="label">8</span>
             <span className="title">Review</span>
           </div>
         </div>

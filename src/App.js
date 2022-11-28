@@ -20,6 +20,7 @@ import useTranslation from "./useTranslation";
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [hasQuestions, setHasQuestions] = useState(false);
   const [isLoginError, setIsLoginError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const { language, setLanguage, setFallbackLanguage, t } = useTranslation();
@@ -62,6 +63,10 @@ function App() {
           setIsAdmin(true);
         }
 
+        if (response.data.hasQuestions === 1) {
+          setHasQuestions(true);
+        }
+
         setIsLoggedIn(true);
         setIsLoginError(false);
         setErrorMessage("");
@@ -102,6 +107,7 @@ function App() {
             path="login"
             element={
               <LoginPage
+                hasQuestions={hasQuestions}
                 isAdmin={isAdmin}
                 errorMessage={errorMessage}
                 isLoggedIn={isLoggedIn}

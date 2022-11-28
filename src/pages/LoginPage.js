@@ -9,17 +9,26 @@ function LogInPage({
   isLoggedIn,
   isLoginError,
   errorMessage,
+  hasQuestions,
 }) {
   const navigate = useNavigate();
+
+  console.log("already submitted form?", hasQuestions);
 
   if (isLoggedIn && isAdmin) {
     setTimeout(() => {
       navigate("/clients");
     }, 1000);
   } else if (isLoggedIn && !isAdmin) {
-    setTimeout(() => {
-      navigate(`/clients/client/${localStorage.getItem("id")}`);
-    }, 1000);
+    if (hasQuestions === false) {
+      setTimeout(() => {
+        navigate(`/questionnaire`);
+      }, 1000);
+    } else {
+      setTimeout(() => {
+        navigate(`/clients/client/${localStorage.getItem("id")}`);
+      }, 1000);
+    }
   }
 
   if (!isLoggedIn)
