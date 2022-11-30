@@ -10,6 +10,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import "yup-phone";
+import countries from "../../assets/json/countries.json";
 
 const PaymentUrl = "http://localhost:8080/payment";
 
@@ -29,8 +30,8 @@ function Booking({ handleBooking }) {
     lastName: yup.string().required(),
     email: yup.string().email().required(),
     phoneNumber: yup.string().phone().required(),
+    country: yup.string().required(),
   });
-  // --------------------------------------------------------
   //------------react hook form-----------------------------
 
   const {
@@ -65,6 +66,7 @@ function Booking({ handleBooking }) {
     sessionStorage.setItem("lastName", watch("lastName"));
     sessionStorage.setItem("email", watch("email"));
     sessionStorage.setItem("phoneNumber", watch("phoneNumber"));
+    sessionStorage.setItem("country", watch("country"));
 
     axios
       .post(PaymentUrl, {
@@ -125,6 +127,32 @@ function Booking({ handleBooking }) {
             />
             <span className="form__error"> {errors.email?.message} </span>
           </label>
+        </div>
+        {/* ------------------------------------------------------------------------------------- */}
+        <div className="form__two-inputs">
+          <label>
+            country code
+            <select
+              className="form__input-text"
+              {...register("country")}
+              name="country"
+            >
+              <option value={""} selected disabled>
+                --country code--
+              </option>
+              {countries.map((country, index) => {
+                return (
+                  <option key={index} value={country.dial_code}>
+                    {/* <img
+                        src={`https://flagcdn.com/${country.code.toLowerCase()}.svg`}
+                      /> */}
+                    {country.dial_code} {country.name}
+                  </option>
+                );
+              })}
+            </select>
+            <span className="form__error"> {errors.country?.message} </span>
+          </label>
 
           <label className="form__label" htmlFor="phone-number">
             Phone Number
@@ -138,6 +166,7 @@ function Booking({ handleBooking }) {
             <span className="form__error"> {errors.phoneNumber?.message} </span>
           </label>
         </div>
+        {/* ----------------------------------------------------------------- */}
 
         <div className="booking__form-container">
           <h2>Select type of service</h2>

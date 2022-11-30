@@ -10,13 +10,15 @@ function Success() {
 
   //getting appointment info from session storage to be pass in the post request
   let dateAndTime = sessionStorage.getItem("dateAndTime").slice(0, 24);
+  let phoneNumber =
+    sessionStorage.getItem("country") + sessionStorage.getItem("phoneNumber");
 
   axios
     .post(URLPostForm, {
       firstName: sessionStorage.getItem("firstName"),
       lastName: sessionStorage.getItem("lastName"),
       email: sessionStorage.getItem("email"),
-      phoneNumber: sessionStorage.getItem("phoneNumber"),
+      phoneNumber: phoneNumber,
       dateOfAppointment: dateAndTime.substring(0, 15),
       timeOfAppointment: dateAndTime.substring(16),
     })
