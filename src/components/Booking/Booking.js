@@ -216,15 +216,31 @@ function Booking({ handleBooking }) {
             scrollableYearDropdown
             showTimeSelect
             timeFormat="HH:mm"
-            timeIntervals={30}
+            timeIntervals={60}
             timeCaption="time"
             dateFormat="MMMM d, yyyy h:mm aa"
             inline
-            excludeTimes={[
+            // excludeTimes={[
+            //   setHours(setMinutes(new Date(), 0), 17),
+            //   setHours(setMinutes(new Date(), 30), 18),
+            //   setHours(setMinutes(new Date(), 30), 19),
+            //   setHours(setMinutes(new Date(), 30), 17),
+            // ]}
+            includeTimes={[
+              setHours(
+                setMinutes(
+                  Date.parse(
+                    Date(
+                      "Wed Dec 07 2022 10:00:00 GMT-0500 (Eastern Standard Time)"
+                    )
+                  ),
+                  0
+                ),
+                20
+              ),
+              setHours(setMinutes(new Date(), 0), 18),
+              setHours(setMinutes(new Date(), 0), 19),
               setHours(setMinutes(new Date(), 0), 17),
-              setHours(setMinutes(new Date(), 30), 18),
-              setHours(setMinutes(new Date(), 30), 19),
-              setHours(setMinutes(new Date(), 30), 17),
             ]}
 
             // monthsShown={2}

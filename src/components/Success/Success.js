@@ -21,6 +21,7 @@ function Success() {
       phoneNumber: phoneNumber,
       dateOfAppointment: dateAndTime.substring(0, 15),
       timeOfAppointment: dateAndTime.substring(16),
+      dateAndTime: sessionStorage.getItem("dateAndTime"),
     })
     .then((response) => {
       console.log(response);
