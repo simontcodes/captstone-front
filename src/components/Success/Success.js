@@ -8,8 +8,12 @@ function Success() {
     window.location.href = "http://localhost:3000";
   }
 
-  //getting appointment info from session storage to be pass in the post request
-  let dateAndTime = sessionStorage.getItem("dateAndTime").slice(0, 24);
+  //getting appointment info from session storage to be passed in the post request
+  let dateAndTime =
+    sessionStorage.getItem("dateOfAppointment") +
+    " " +
+    sessionStorage.getItem("timeOfAppointment") +
+    ":00";
   let phoneNumber =
     sessionStorage.getItem("country") + sessionStorage.getItem("phoneNumber");
 
@@ -19,9 +23,9 @@ function Success() {
       lastName: sessionStorage.getItem("lastName"),
       email: sessionStorage.getItem("email"),
       phoneNumber: phoneNumber,
-      dateOfAppointment: dateAndTime.substring(0, 15),
-      timeOfAppointment: dateAndTime.substring(16),
-      dateAndTime: sessionStorage.getItem("dateAndTime"),
+      dateOfAppointment: sessionStorage.getItem("dateOfAppointment"),
+      timeOfAppointment: sessionStorage.getItem("timeOfAppointment"),
+      dateAndTime: dateAndTime,
     })
     .then((response) => {
       console.log(response);

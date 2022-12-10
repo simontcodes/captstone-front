@@ -1,28 +1,33 @@
 import "./Booking.scss";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { useState } from "react";
-
+import { useState, useEffect } from "react";
 import axios from "axios";
-import setHours from "date-fns/setHours";
-import setMinutes from "date-fns/setMinutes";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import "yup-phone";
 import countries from "../../assets/json/countries.json";
+import Calendar from "react-calendar";
+import "react-calendar/dist/Calendar.css";
 
 const PaymentUrl = "http://localhost:8080/payment";
+const googleCalendarUrl = "http://localhost:8080/googleCalendar";
 
 function Booking({ handleBooking }) {
-  //state that captures date and time of appointment
-  const [selectedDate, setSelectedDate] = useState("");
   //type of service
   const [service, setService] = useState(null);
   //error State for a user no to pay without the info
   const [errorMessage, setErrorMessage] = useState("");
   //error message from the backend
   const [backendError, setBackendError] = useState("");
+  //state for react-calendar
+  const [value, onChange] = useState(new Date());
+  // state for available times
+  const [availableHours, setAvailableHours] = useState([]);
+  // state for hour chosen
+  const [chosenTime, setChosenTime] = useState(
+    "Please select an available time"
+  );
 
   // ----------------Yup validation------------------------
   const schema = yup.object().shape({
@@ -44,10 +49,67 @@ function Booking({ handleBooking }) {
     mode: "onTouched",
   });
 
-  const [startDate, setStartDate] = useState(
-    setHours(setMinutes(new Date(), 30), 16)
-  );
-  // -----------------------------------------------
+  // -------------google calendar-----------------------------
+  //needed an extra var because new Date alters the original var
+  let startDate = value;
+
+  const allHours = [
+    "9:00",
+    "10:00",
+    "11:00",
+    "12:00",
+    "13:00",
+    "14:00",
+    "15:00",
+    "16:00",
+  ];
+
+  const takenHours = [];
+
+  let hourOfAppointment;
+  let hoursToPush = [];
+
+  useEffect(() => {
+    console.log("from:", startDate);
+    axios
+      .post(googleCalendarUrl, {
+        startDate: JSON.stringify(startDate),
+      })
+      .then((response) => {
+        console.log("to:", startDate.getDate() + 1);
+        console.log("number of appointments that day:", response.data);
+        response.data.map((appointment) => {
+          hourOfAppointment = new Date(
+            appointment.start.dateTime.toLocaleString("en-US", {
+              timeZone: "America/Toronto",
+            })
+          );
+
+          takenHours.push(`${hourOfAppointment}`.slice(16, 21));
+        });
+
+        // console.log(takenHours);
+        for (let i = 0; i < allHours.length; i++) {
+          let availHour = allHours[i];
+          if (takenHours.includes(availHour)) {
+            hoursToPush.push(0);
+          } else {
+            hoursToPush.push(availHour);
+          }
+        }
+
+        setAvailableHours(hoursToPush);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [startDate]);
+
+  // ---------------------------------------------------------
+  function handleHour(hour) {
+    setChosenTime(hour);
+  }
+  // -----------------------------------------------------------------
 
   const onSubmit = (data) => {
     console.log(data);
@@ -55,12 +117,16 @@ function Booking({ handleBooking }) {
   };
 
   function handlePayment() {
-    if (!selectedDate || !watch("service")) {
+    if (!value || !watch("service")) {
       setErrorMessage("Date/time and type of service has to be selected");
       return;
     }
-    //saving data to be uses to post when questionnaire is filled
-    sessionStorage.setItem("dateAndTime", selectedDate);
+    let dateToSave = value.toDateString().slice(0, 16);
+    console.log(dateToSave);
+
+    //saving data to be used after payment is successful
+    sessionStorage.setItem("dateOfAppointment", dateToSave);
+    sessionStorage.setItem("timeOfAppointment", chosenTime);
     sessionStorage.setItem("typeOfService", watch("service"));
     sessionStorage.setItem("firstName", watch("firstName"));
     sessionStorage.setItem("lastName", watch("lastName"));
@@ -200,55 +266,35 @@ function Booking({ handleBooking }) {
             </div>
           </form>
         </div>
-
-        <div className="booking__date-picker-container">
-          <DatePicker
-            className="booking__date-picker"
-            selected={selectedDate}
-            onChange={(date) => {
-              setSelectedDate(date);
-            }}
-            // dateFormat="dd/MM/yyyy"
+        <div>
+          <Calendar
+            onChange={onChange}
             minDate={new Date()}
-            // maxDate={new Date()}
-            filterDate={(date) => date.getDay() !== 6 && date.getDay() !== 0}
-            showYearDropdown
-            scrollableYearDropdown
-            showTimeSelect
-            timeFormat="HH:mm"
-            timeIntervals={60}
-            timeCaption="time"
-            dateFormat="MMMM d, yyyy h:mm aa"
-            inline
-            // excludeTimes={[
-            //   setHours(setMinutes(new Date(), 0), 17),
-            //   setHours(setMinutes(new Date(), 30), 18),
-            //   setHours(setMinutes(new Date(), 30), 19),
-            //   setHours(setMinutes(new Date(), 30), 17),
-            // ]}
-            includeTimes={[
-              setHours(
-                setMinutes(
-                  Date.parse(
-                    Date(
-                      "Wed Dec 07 2022 10:00:00 GMT-0500 (Eastern Standard Time)"
-                    )
-                  ),
-                  0
-                ),
-                20
-              ),
-              setHours(setMinutes(new Date(), 0), 18),
-              setHours(setMinutes(new Date(), 0), 19),
-              setHours(setMinutes(new Date(), 0), 17),
-            ]}
-
-            // monthsShown={2}
+            minDetail="year"
+            value={value}
           />
-          {console.log(selectedDate)}
+        </div>
+        <p>{backendError}</p>
+
+        <div>{!availableHours.length && <p>Loading...</p>}</div>
+        <div>
+          {availableHours.length > 0 &&
+            availableHours.map((hour, index) => {
+              if (hour) {
+                return (
+                  <button
+                    key={index}
+                    onClick={() => {
+                      handleHour(hour);
+                    }}
+                  >
+                    {hour}
+                  </button>
+                );
+              }
+            })}
         </div>
 
-        <p>{backendError}</p>
         <div className="booking__confirm">
           <div className="booking__confirm-text">
             <h2 className="booking__confirm-title">
@@ -265,7 +311,8 @@ function Booking({ handleBooking }) {
                 : null}
             </h3>
             <h3>
-              Date and time of Appointment: {`${selectedDate}`.slice(0, 21)}
+              Date and time of Appointment: {`${value}`.slice(0, 16)}at{" "}
+              {chosenTime}
             </h3>
           </div>
           <div className="booking__payment">
